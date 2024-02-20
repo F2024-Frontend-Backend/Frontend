@@ -1,16 +1,29 @@
-import React from 'react'
-import {Link} from 'react-router-dom';
+import ItemsList from "../components/Basket/ShoppingBasket";
+import { useState } from "preact/hooks";
+import jsonData from "../data.json";
+import { Link } from "react-router-dom";
 
 const Basket = () => {
-    return (
-        <>
-        <h1>I am basket</h1>
+  const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
 
-        <button>
-            <Link to={`/checkout`}>Go to checkout </Link>
-        </button>
-        </>
-    )
-}
+  //Take the current stat 'prev' and return a new stat
+  const handleItemCountChange = (itemId: string, newCount: number) => {
+    setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
+  };
 
-export default Basket
+  return (
+    <>
+      <ItemsList
+        items={jsonData}
+        onItemCountChange={handleItemCountChange}
+        itemCounts={itemCount}
+      />
+
+      <button>
+        <Link to={`/checkout`}>Go to checkout </Link>
+      </button>
+    </>
+  );
+};
+
+export default Basket;

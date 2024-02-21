@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState } from "react";
 import { ImBin } from "react-icons/im";
 
 interface Props {

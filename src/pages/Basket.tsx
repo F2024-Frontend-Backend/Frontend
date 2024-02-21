@@ -1,5 +1,5 @@
 import ItemsList from "../components/Basket/ShoppingBasket";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import './purchaseTotal.css'
+import './PurchaseTotal.css'
 
 function PurchaseTotal () {
     const purchasePrise = 400;

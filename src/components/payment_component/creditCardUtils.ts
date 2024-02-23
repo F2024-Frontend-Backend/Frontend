@@ -1,16 +1,16 @@
 export function isValidLuhn(number: string) {
     let sum = 0
-    let shouldDouble = false
+    let double = false
     for(let i = number.length - 1; i >= 0; i--) {
         let digit = parseInt(number.charAt(i), 10)
-        if(shouldDouble){
+        if(double){
             digit *= 2;
             if(digit > 9){
                 digit -= 9
             }
         }
         sum += digit
-        shouldDouble = !shouldDouble;
+        double = !double;
     }
     return sum % 10 === 0
 }
@@ -27,8 +27,8 @@ export function getCardType(number: string){
 }
 
 export function validateCardNumber(number: string) {
-    const cleanNumber = number.replace(/\s+/g, ''); // Remove spaces for a cleaner number
-    const cardType = getCardType(cleanNumber); // Determine the card type
+    const cleanNumber = number.replace(/\s+/g, '');
+    const cardType = getCardType(cleanNumber);
 
     if (cardType === 'Unknown') {
         return { isValid: false, message: 'Unsupported card type' };

@@ -1,0 +1,42 @@
+export function isValidLuhn(number: string) {
+    let sum = 0
+    let shouldDouble = false
+    for(let i = number.length - 1; i >= 0; i--) {
+        let digit = parseInt(number.charAt(i), 10)
+        if(shouldDouble){
+            digit *= 2;
+            if(digit > 9){
+                digit -= 9
+            }
+        }
+        sum += digit
+        shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0
+}
+
+export function getCardType(number: string){
+    const visaPattern =  /^4[0-9]{12}(?:[0-9]{3})?$/
+    const masterCardPattern = /^(5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$/;
+    const dankortPattern = /^4[0-9]{3}5019\d{8}$/
+
+    if (visaPattern.test(number)) return 'Visa';
+    if (masterCardPattern.test(number)) return 'MasterCard';
+    if (dankortPattern.test(number)) return 'Dankort';
+    return 'Unknown';
+}
+
+export function validateCardNumber(number: string) {
+    const cleanNumber = number.replace(/\s+/g, ''); // Remove spaces for a cleaner number
+    const cardType = getCardType(cleanNumber); // Determine the card type
+
+    if (cardType === 'Unknown') {
+        return { isValid: false, message: 'Unsupported card type' };
+    }
+
+    if (!isValidLuhn(cleanNumber)) {
+        return { isValid: false, message: 'Invalid card number' };
+    }
+
+    return { isValid: true, message: `Valid ${cardType}` };
+}

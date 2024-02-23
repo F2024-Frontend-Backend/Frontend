@@ -1,0 +1,214 @@
+body{
+    background-color: lightgray;
+  }
+  .basket-container{
+  width: 100%;
+  height: 70vh;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  }
+  
+  .basket-container::-webkit-scrollbar{
+    display: none;
+  }
+  
+  .item-container {
+    background-color: aliceblue;
+    display: flex;
+    /*align-items: flex-start; 
+    justify-content: flex-start; */
+    align-items: center; 
+    justify-content: space-between;
+    flex-direction: row; 
+    border: 1px solid lightgrey;
+    padding: 10px 10px 10px 0;
+    height: auto;
+    width: 100%;
+    margin-top: 0;
+    }
+    
+   
+    .subTotal{
+      width: 500px;
+      height: auto;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+  
+    }
+  
+   .image, .name, .price, .quantity, .total{
+      display: inline-flex; 
+      margin-top: 0;
+      align-items: center;
+      float: left;
+      
+      
+    }
+    
+    .price{
+      position: relative;
+      left: 30%;   
+    }
+    .name{
+      width: 90px;
+      margin-top: 3%;
+      margin-left: 4%;
+    }
+    
+    .image{
+      width: 80px;
+      height: 100px;
+      object-fit: fill;
+      margin-left: 3px;
+     
+    }
+  .currency{
+    margin-left: 8%;
+  }
+  
+  @media (max-width: 768px) {
+    .deleteIcon {
+      left: 50%; /* adjustment for smaller screens */
+    }
+  }
+  
+  .quantity{
+    position: relative;
+    left: 135px;
+     
+  }
+  
+  .total{
+     position: relative;
+    left: 210px;
+  }
+    
+    .buttons{
+     
+      width: 70px;
+      height: 30px;
+      position: relative;
+     bottom: 40px;
+      left: 216px;
+    }
+  
+    .btn{
+      background-color: rgb(197, 195, 195);
+      min-width: 6.5%; 
+     
+      padding: 0.3em 0.4em;
+      text-align: center;
+      line-height: 1;
+      vertical-align: middle;
+      font-size: 16px; 
+      display: inline-block; 
+      border: none; 
+      cursor: pointer;
+      position: relative;
+      
+      
+    }
+    .btn:hover{
+        box-shadow: 0 2px 4px 0;
+    }
+    .btw{
+     
+      margin-right: 3px;
+      margin-left: 3px;
+    }
+  
+    .priceL,
+    .quantityL,
+    .subtotal {
+      width: 15%;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    .priceL{
+      position: relative;
+      left: 105px;
+    }
+    .quantityL{
+      position: relative;
+      left: 120px;
+    }
+    .subtotal {
+      text-align: right;
+      position: relative;
+      left: 120px;
+      
+    }
+    
+    .item {
+      position: relative;
+      left: 50px;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    
+    
+    .basket-labels {
+      border-bottom: 3px solid black;
+      margin-top: 1.625rem;
+      padding-bottom: 1%;
+    }
+    
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+    }
+    
+    li {
+      color: #111;
+      display: inline-block;
+      padding: 0.625rem 0;
+      
+    }
+    
+    li.priceL:before,
+    l   i.subtotal:before {
+    content: '';
+    }
+  
+    .div1, .div3, .div5, .div7{
+      width: 40px;
+      height: 20px;
+      position: relative;
+      left: 50px;
+    }
+    .div2, .div4, .div6 , .div8{
+      width: 40px;
+      height: 20px;
+      position: relative;
+      left: 320px;
+    }
+    
+    .counterButton{
+      width: 120px;
+      margin-left: 20px;
+      position: relative;
+     left: 25px;
+     bottom: 20%;
+     
+      }
+    .deleteIcon{
+      position: relative;
+      left: 190px;
+      bottom: 20%;
+      cursor: pointer;
+    }
+    .deleteIcon:hover{
+     color: red;
+    }
+    .deleteBtn{
+      border-color: white;
+      border: none;
+      width: 10px;
+      height: 10px;
+      margin-left: 5px;  
+    }
+    .deleteBtn:hover{
+      color: red;
+     }

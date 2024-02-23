@@ -6,9 +6,6 @@ import "./App.css";
 import Basket from "./pages/Basket";
 import Checkout from "./pages/Checkout";
 import Receipt from "./pages/Receipt";
-import  OrderReceived from "./components/OrderReceived/order_received";
-
-
 
 
 function App() {
@@ -17,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           
-          <Route path="receipt" element={<OrderReceived />} />
+          <Route path="receipt" element={<Receipt />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="" element={<Basket />} />
       
@@ -26,15 +23,6 @@ function App() {
     </>
   );
 }
-
-
-  
-
-  
-  
-  
-  
-
 
 export default App;
 

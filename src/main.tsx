@@ -5,6 +5,5 @@ import BillingInfo from "./components/BillingInfo.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BillingInfo />
   </React.StrictMode>
 );

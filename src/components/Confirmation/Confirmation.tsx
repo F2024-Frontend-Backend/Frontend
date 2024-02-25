@@ -3,19 +3,19 @@ import './Confirmation.css';
 
 
 interface BillingProps{
-    firstName: String,
-    lastName: String,
-    address: String,
-    city: String,
-    postal: String,
-    email: String,
-    country: String, 
+    firstName?: String,
+    lastName?: String,
+    address?: String,
+    city?: String,
+    postal?: String,
+    email?: String,
+    country?: String, 
 }
 interface PaymentProps {
-    cardType: String,
-    cardNo: String,
-    cardExpDate: String,
-    orderTot: String
+    cardType?: String,
+    cardNo?: String,
+    cardExpDate?: String,
+    orderTot?: String
 }
 
 interface ConfirmationProps {
@@ -49,17 +49,17 @@ const Confirmation: React.FC<ConfirmationProps> = ({
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <p style={{color: '#777373'}}>Card Number</p>
-                        <p style={{color: '#777373'}}>{paymentInfo.cardNo + ""}</p>
+                        <p style={{color: '#777373'}}>{paymentInfo.cardNo}</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <p style={{color: '#777373'}}>Expiration Date</p>
-                        <p style={{color: '#777373'}}>{paymentInfo.cardExpDate + ""}</p>
+                        <p style={{color: '#777373'}}>{paymentInfo.cardExpDate}</p>
                 </div>
             </div>
             <div className = "YourOrd">
                 <label htmlFor='OrderInfo'><strong style={{color: '#777373'}}>YOUR ORDER</strong></label>
                 <hr style={{ margin: '10px 0' }} /> {/* Horizontal line */}
-                <label htmlFor='Total' style={{color: '#777373'}}>Subtotal:</label> <p style={{color: '#777373'}}>{orderTot + ""}</p>
+                <label htmlFor='Total' style={{color: '#777373'}}>Subtotal:</label> <p style={{color: '#777373'}}>{paymentInfo.orderTot}</p>
             </div>
             <div className = "ContinueButn">
                 <div className="ContinueBtnPlaceHolder"></div>

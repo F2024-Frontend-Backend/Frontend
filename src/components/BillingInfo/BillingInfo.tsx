@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
+import "./BillingInfo.css"
+
 const BillingInfo = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

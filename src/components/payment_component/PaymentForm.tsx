@@ -123,8 +123,9 @@ function PaymentForm() {
                         onFocus={handleCardNumberFocus}
                         onBlur={handleCardNumberBlur}
                         className={`${!cardNumberValid && !cardNumberFocused ? 'input-error' : ''}`}
-                        />
+                    />
                 </div>
+                <div className="form-connected-groups">
                 <div className="form-group">
                     <label>Expiry Date</label>
                     <input
@@ -135,7 +136,7 @@ function PaymentForm() {
                         onChange={handleExpDateChange}
                         onFocus={handleExpDateFocus}
                         onBlur={handleExpDateBlur}
-                        className={`${!expDateValid && !expDateFocused ? 'input-error' : ''}`}
+                        className={`input-small ${!expDateValid && !expDateFocused ? 'input-error' : ''}`}
                     />
                 </div>
                 <div className="form-group">
@@ -148,8 +149,9 @@ function PaymentForm() {
                         onChange={handleCVVNumberChange}
                         onFocus={handleCvvNumberFocus}
                         onBlur={handleCvvNumberBlur}
-                        className={`${!cvvNumberValid && !cvvNumberFocused ? 'input-error' : ''}`}
+                        className={`input-small ${!cvvNumberValid && !cvvNumberFocused ? 'input-error' : ''}`}
                     />
+                </div>
                 </div>
                 <div className="form-group">
                     <label>Cardholder Name</label>
@@ -159,7 +161,9 @@ function PaymentForm() {
                         value={cardHolderName}
                         onChange={(e) => setCardHolderName(e.target.value)}/>
                 </div>
-                <button type="submit">Submit Payment Info</button>
+                <div className="form-group-button">
+                    <button type="submit">Submit Payment Info</button>
+                </div>
             </form>
         </div>
     );

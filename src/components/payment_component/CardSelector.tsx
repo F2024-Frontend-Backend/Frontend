@@ -1,3 +1,4 @@
+import './CardSelector.css'
 interface CardSelectorProps {
     selectedCardType: string;
     onCardTypeChange: (newCardType: string) => void;
@@ -7,7 +8,8 @@ const CardSelector = ({ selectedCardType, onCardTypeChange }: CardSelectorProps)
     const cardTypes = ['Visa/Dankort', 'Visa', 'MasterCard',];
 
     return (
-        <div>
+        <div className="card-selector-container">
+        <div className="card-selector">
             {cardTypes.map(cardType => (
                 <label key={cardType}>
                     <input
@@ -19,6 +21,7 @@ const CardSelector = ({ selectedCardType, onCardTypeChange }: CardSelectorProps)
                     /> {cardType}
                 </label>
             ))}
+        </div>
         </div>
     );
 };

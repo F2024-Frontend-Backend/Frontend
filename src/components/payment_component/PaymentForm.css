@@ -1,7 +1,17 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
 input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
+}
+
+.input-small {
+    width: 100px;
 }
 
 .input-error {
@@ -15,15 +25,20 @@ input {
 }
 
 .form-group label {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+    padding-left: 10px;
 }
 
+.form-connected-groups {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .form-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-content: center;
     padding: 20px;
-    background-color: cadetblue;
+    background-color: gray;
     border-radius: 8px;
 }
 

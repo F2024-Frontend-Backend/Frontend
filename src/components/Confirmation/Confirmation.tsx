@@ -33,7 +33,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             <div className = "BillingAddr">
                 <label htmlFor='BillingInfo'><strong style={{color: '#777373'}}>BILLING ADDRESS</strong></label>
                 <hr style={{ margin: '10px 0' }} /> {/* Horizontal line */}
-                    <p style={{color: '#777373'}}>Name: {billingInfo.lastName} , {billingInfo.firstName}</p>
+                    <p style={{color: '#777373'}}>Name: {billingInfo.lastName}, {billingInfo.firstName}</p>
                     <p style={{color: '#777373'}}>Address: {billingInfo.address}</p>
                     <p style={{color: '#777373'}}>Email: {billingInfo.email}</p>
                     <p style={{color: '#777373'}}>City: {billingInfo.city},{billingInfo.postal}</p  >
@@ -59,7 +59,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             <div className = "YourOrd">
                 <label htmlFor='OrderInfo'><strong style={{color: '#777373'}}>YOUR ORDER</strong></label>
                 <hr style={{ margin: '10px 0' }} /> {/* Horizontal line */}
-                <label htmlFor='Total' style={{color: '#777373'}}>Subtotal:</label> <p style={{color: '#777373'}}>{paymentInfo.orderTot}</p>
+                <label htmlFor='Total' style={{color: '#777373'}}>Subtotal:</label><p style={{color: '#777373'}}>{paymentInfo.orderTot}</p>
             </div>
             <div className = "ContinueButn">
                 <div className="ContinueBtnPlaceHolder"></div>

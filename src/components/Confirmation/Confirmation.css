@@ -2,11 +2,12 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  color:whitesmoke
 }
 
 .confirmation-section {
   padding: 20px;
-  border: 1px solid #969494;
+  border: 1px solid #000000;
 }
 
 .BillingAddr {
@@ -20,11 +21,11 @@
 }
 
 .YourOrd {
-  grid-column: 1 / span 1;
+  grid-column: 1 / span 1; 
   grid-row: 2 / span 1;
 }
 
-.ContinueButn {
+.ContinueBtn {
   grid-column: 2 / span 1;
   grid-row: 2 / span 1;
 }

@@ -66,7 +66,7 @@ const Item: React.FC<Props & itemProps> = ({
               max={5}
             />
             <div className="deleteIcon">
-              <DeleteIcon itemId={id} onClick={handleDelete} />
+              {/*<DeleteIcon itemId={id} onClick={handleDelete} />*/}
               <ImBin />
             </div>
           </span>

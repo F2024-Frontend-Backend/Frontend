@@ -1,11 +1,19 @@
 import React from 'react'
+
+import jsonData from "../../data.json";
+import ItemCard from "../../components/FinalItemCard/FinalItemCard"
 import './PurchaseTotal.css'
 
-function PurchaseTotal () {
+interface Props {
+    items: typeof jsonData;
+  }
+
+const PurchaseTotal: React.FC<Props> = (Props) => {
     const purchasePrise = 400;
     const deliveryPrice = 39;
     const currency = "kr."
 
+    
 
     return(
     <>

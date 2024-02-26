@@ -1,0 +1,9 @@
+.card-selector-container {
+    margin-bottom: 10px;
+}
+
+.card-selector label {
+    display: inline-block;
+    margin-right: 20px;
+}
+

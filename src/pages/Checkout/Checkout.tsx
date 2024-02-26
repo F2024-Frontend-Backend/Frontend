@@ -34,8 +34,7 @@ const InfoCol: React.FC<Props>=({
 
 const Checkout = () => {
 
-    const [currentState, setCurrentState] = useState("billing") 
-    const [contineButtonState, setContinueButtonState] = useState()
+    const [currentState, setCurrentState] = useState("billing")
 
     const navigate = useNavigate()
 

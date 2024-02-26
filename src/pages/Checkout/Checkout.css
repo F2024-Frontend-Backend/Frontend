@@ -1,0 +1,22 @@
+.pageContainer {
+    display: flex;
+    gap: 2rem;
+    background-color: gray;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.left {
+    flex-grow: 2;
+    width: 100%;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1rem;
+}
+
+.right {
+    flex-grow: 1;
+    width: 100%;
+    padding: 2rem;
+}

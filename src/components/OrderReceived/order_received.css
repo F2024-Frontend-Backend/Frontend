@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  .order-received-container {
+      display: flex;
+      flex-direction: row; /* Align items horizontally */
+      justify-content: space-between; /* Space between items */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      font-family: 'Arial', sans-serif;
+      border-radius: 10px;
+      background-color: aliceblue;
+    }
+    
+    h1 {
+      color: #333;
+    }
+    
+    .order-summary, .billing-address, .your-order {
+      margin-bottom: 20px;
+  }
+    .total-section {
+      border-top: 2px solid #333;
+      padding-top: 10px;
+      font-weight: bold;
+  }
+    /*
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #905252;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+  */

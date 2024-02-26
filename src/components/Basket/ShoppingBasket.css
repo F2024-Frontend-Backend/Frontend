@@ -8,6 +8,7 @@ body{
   display: flex;
   justify-content: flex-start;
   overflow-y: scroll;
+
   }
   
   .basket-container::-webkit-scrollbar{
@@ -27,6 +28,7 @@ body{
     height: auto;
     width: 100%;
     margin-top: 0;
+    
     }
     
    
@@ -68,11 +70,6 @@ body{
     margin-left: 8%;
   }
   
-  @media (max-width: 768px) {
-    .deleteIcon {
-      left: 50%; /* adjustment for smaller screens */
-    }
-  }
   
   .quantity{
     position: relative;
@@ -127,29 +124,29 @@ body{
     }
     .priceL{
       position: relative;
-      left: 105px;
+      left: 90px;
     }
     .quantityL{
       position: relative;
-      left: 120px;
+      left: 112px;
     }
     .subtotal {
       text-align: right;
       position: relative;
-      left: 120px;
+      left: 104px;
       
     }
     
-    .item {
+    .products {
       position: relative;
-      left: 50px;
+      left: 8px;
       font-family:Arial, Helvetica, sans-serif;
     }
     
     
     .basket-labels {
       border-bottom: 3px solid black;
-      margin-top: 1.625rem;
+      margin-top: 1px;
       padding-bottom: 1%;
     }
     
@@ -167,10 +164,7 @@ body{
       
     }
     
-    li.priceL:before,
-    l   i.subtotal:before {
-    content: '';
-    }
+    
   
     .div1, .div3, .div5, .div7{
       width: 40px;

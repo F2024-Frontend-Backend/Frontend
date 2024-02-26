@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./Checkout.css"
 import PurchaseTotal from '../../components/purchaseTotal/purchaseTotal'
 import BillingInfo from '../../components/BillingInfo/BillingInfo';
-import Payment from '../../components/PlaceholderPay'
+import Payment from '../../components/payment_component/PaymentForm'
 import Confirmation from '../../components/PlaceholderConfirm'
 
 interface Props {

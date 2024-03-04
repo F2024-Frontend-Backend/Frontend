@@ -1,4 +1,4 @@
-import ItemsList from "../components/Basket/ShoppingBasket";
+import BasketItems from "../components/Basket/ShoppingBasket";
 import { useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ const Basket = () => {
 
   return (
     <>
-      <ItemsList
+      <BasketItems
         items={jsonData}
         onItemCountChange={handleItemCountChange}
         itemCounts={itemCount}

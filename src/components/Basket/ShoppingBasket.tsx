@@ -4,6 +4,7 @@ import "./ShoppingBasket.css";
 import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
 import DeleteIcon from "../Basket/DeleteIcon"; // Ensure DeleteIcon supports onClick prop
+import Alert from "@mui/lab/Alert";
 
 // Fetch Items from file
 const getItems = async (filePath: RequestInfo, fileType: String) => {
@@ -53,6 +54,10 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
   handleDelete,
 }) => {
   let totalPrice = price * count;
+  const [showAlert, setShowAlert] = useState(true);
+  const handleCloseClick = () => {
+    setShowAlert(false);
+  };
   return (
     <div className="item-container">
       {imageUrl && <img className="image" src={imageUrl} alt={name} />}
@@ -69,9 +74,14 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
           max={5}
         />
         <button onClick={() => handleDelete(id)} className="deleteIcon">
-          <DeleteIcon />{" "}
+          {/*<DeleteIcon />{" "} */}
           {/* Assuming DeleteIcon is just a visual representation */}
         </button>
+        {count === 3 && showAlert && (
+          <Alert severity="info" onClose={handleCloseClick}>
+            Køb 3 få en gratis!
+          </Alert>
+        )}
       </div>
     </div>
   );
@@ -87,6 +97,8 @@ const BasketItems: React.FC<ItemsListProps> = ({
 
   const [basketItems, setBasketItems] = useState<Product[]>([]);
 
+  const [promotionApplied, setPropmitionApplied] = useState(false);
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -100,21 +112,24 @@ const BasketItems: React.FC<ItemsListProps> = ({
       console.error(error);
     }
   };
-  /*
-  useEffect(() => {
-    // Fetch items logic if necessary or simply use jsonData
-    // For simplicity, assuming items are initially set from jsonData or similar
-  }, []);*/
 
   const handleDelete = (itemId: string) => {
     const newItems = basketItems.filter((item) => item.id !== itemId);
     setBasketItems(newItems);
   };
 
-  const subtotal = basketItems.reduce((total, item) => {
+  const subtotal: number = basketItems.reduce((total, item) => {
     const itemCount = itemCounts[item.id] || 0;
-    return total + item.price * itemCount;
+    /* if (itemCount > 2) {
+      return total + item.price * (itemCount - 1);
+    } else {
+      return total + item.price * itemCount;
+    }*/
+    const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
+    return total + item.price * effectiveCount;
   }, 0);
+  const discount = subtotal > 300 ? subtotal * 0.1 : 0;
+  const totalAfterDiscount = subtotal - discount;
 
   return (
     <>
@@ -129,8 +144,33 @@ const BasketItems: React.FC<ItemsListProps> = ({
             handleDelete={handleDelete}
           />
         ))}
+        {promotionApplied && <div>Køb 3, få 1 gratis!</div>}
       </div>
-      <div className="subTotal">Subtotal: {subtotal}</div>
+      {/*<div className="subTotal">Subtotal: {subtotal}</div> */}
+      <div className="subTotal">
+        <p className="div1">
+          <strong>Subtotal</strong>
+          <span className="div2">{subtotal}</span>
+        </p>
+
+        <p className="div3">
+          Discount
+          <span className="div4">-{discount}</span>
+        </p>
+        <p className="div5">
+          Shipping
+          <span className="div6">-</span>
+        </p>
+
+        <div>
+          <p className="div7">
+            <strong>Total</strong>
+            <span className="div8">
+              <strong>{totalAfterDiscount}</strong>
+            </span>
+          </p>
+        </div>
+      </div>
     </>
   );
 };

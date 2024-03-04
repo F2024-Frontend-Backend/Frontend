@@ -3,6 +3,7 @@ import { useState } from "react";
 interface Props {
   min?: number;
   max?: number;
+  //onCountChange: (newCount: number) => void;
   onCountChange: (newCount: number) => void;
 }
 

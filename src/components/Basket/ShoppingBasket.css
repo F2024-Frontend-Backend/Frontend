@@ -15,7 +15,7 @@ body{
     display: none;
   }
   
-  .item-container {
+  .itemContainer {
     background-color: aliceblue;
     display: flex;
     /*align-items: flex-start; 

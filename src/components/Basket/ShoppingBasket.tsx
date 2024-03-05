@@ -33,8 +33,8 @@ interface Props {
   name: string;
   price: number;
   currency: string;
-  rabatQuantity: number;
-  rabatPercent: number;
+  rebateQuantity: number;
+  rebatePercent: number;
   imageUrl?: string;
   count: number;
 }
@@ -85,20 +85,25 @@ const ItemsList: React.FC<itemProps> = ({
     name,
     price,
     currency,
+    rebatePercent,
+    rebateQuantity,
     imageUrl,
     onItemCountChange,
     count,
   }) => {
+
+    
+
     totalPrice = price * count;
     return (
       <>
-        <div className="item-container" key={id}>
+        <div className="itemContainer" key={id}>
           <div>
             {imageUrl && <img className="image" src={imageUrl} alt="" />}
             <span className="name box2">
               <strong>{name}</strong>
             </span>
-            <span></span>
+            { rebate({rebatePercent, rebateQuantity, count})}
             <span className="price">
               {price}
               <span className="currency">{currency}</span>
@@ -138,8 +143,8 @@ const ItemsList: React.FC<itemProps> = ({
                 name={item.name}
                 price={item.price}
                 currency={item.currency}
-                rabatPercent={item.rabatPercent}
-                rabatQuantity={item.rabatQuantity}
+                rebatePercent={item.rebatePercent}
+                rebateQuantity={item.rebateQuantity}
                 imageUrl={item.imageUrl}
                 count={itemCounts[item.id] || 0}
                 onItemCountChange={onItemCountChange}
@@ -177,6 +182,30 @@ const ItemsList: React.FC<itemProps> = ({
     </>
   );
 };
+
+interface ReabteProps {
+  rebateQuantity: number;
+  rebatePercent: number;
+  count: number;
+}
+
+const rebate: React.FC<ReabteProps> = ({
+  rebatePercent,
+  rebateQuantity,
+  count,
+}) => {
+  const [expanded, setExpanded] = useState(false);
+
+  if (rebateQuantity > 0 && rebateQuantity > count ) {
+    console.log("if accepted")
+    return (
+      <div className="reabte">
+        <span>Buy {rebateQuantity} get {rebatePercent}% off</span>
+      </div>
+    )
+    
+  }
+}
 
 
 export default ItemsList;

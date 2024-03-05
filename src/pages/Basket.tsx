@@ -1,7 +1,8 @@
 import BasketItems from "../components/Basket/ShoppingBasket";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
+import Alert from "@mui/lab/Alert";
 
 const Basket = () => {
   const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});

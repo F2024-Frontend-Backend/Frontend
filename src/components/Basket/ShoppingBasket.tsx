@@ -29,9 +29,11 @@ interface Product {
   rabatQuantity: number;
   rabatPercent: number;
   imageUrl?: string;
+  //count?: number;
 }
 
 interface BasketItemProps {
+  product: Product;
   count: number;
   onItemCountChange: (itemId: string, newCount: number) => void;
   handleDelete: (itemId: string) => void;
@@ -54,32 +56,48 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
   handleDelete,
 }) => {
   let totalPrice = price * count;
+
   const [showAlert, setShowAlert] = useState(true);
+  /*
   const handleCloseClick = () => {
     setShowAlert(false);
-  };
+  };*/
+  useEffect(() => {
+    if (count === 3) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [count]);
+
   return (
     <div className="item-container">
       {imageUrl && <img className="image" src={imageUrl} alt={name} />}
       <div className="item-details">
-        <strong>{name}</strong>
-        <div>{`${price} ${currency}`}</div>
-        <div>Quantity: {count}</div>
-        <div>
-          Total Price: {totalPrice} {currency}
-        </div>
-        <CounterButton
-          onCountChange={(newCount) => onItemCountChange(id, newCount)}
-          min={0}
-          max={5}
-        />
+        <span className="name box2">
+          <strong>{name}</strong>
+        </span>
+        <span></span>
+        <span className="price">
+          {price}
+          <span className="currency">{currency}</span>
+        </span>
+        <span className="quantity box4">{count}</span>
+        <span className="total box5">{totalPrice}</span>
+        <span className="counterButton">
+          <CounterButton
+            onCountChange={(newCount) => onItemCountChange(id, newCount)}
+            min={0}
+            max={6}
+          />
+        </span>
         <button onClick={() => handleDelete(id)} className="deleteIcon">
-          {/*<DeleteIcon />{" "} */}
+          x{/*<DeleteIcon />{" "} */}
           {/* Assuming DeleteIcon is just a visual representation */}
         </button>
         {count === 3 && showAlert && (
-          <Alert severity="info" onClose={handleCloseClick}>
-            Køb 3 få en gratis!
+          <Alert severity="info" onClose={() => setShowAlert(false)}>
+            Buy 3 and get one for free!
           </Alert>
         )}
       </div>
@@ -89,33 +107,35 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
 
 // ItemsList Component
 const BasketItems: React.FC<ItemsListProps> = ({
-  items,
-  itemCounts,
+  //items,
+  //itemCounts,
   onItemCountChange,
 }) => {
-  //const [basketItems, setBasketItems] = useState<Product[]>(jsonData);
-
-  const [basketItems, setBasketItems] = useState<Product[]>([]);
-
-  const [promotionApplied, setPropmitionApplied] = useState(false);
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
-  const fetchItems = async () => {
-    try {
-      const response = await getItems("src/data.json", "json");
-      setBasketItems(response.slice(0, 4));
-      console.log(response);
-    } catch (error) {
-      console.error(error);
+  const [basketItems, setBasketItems] = useState<Product[]>(
+    jsonData.slice(0, 4)
+  );
+  const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
+    () => {
+      const initialCounts: { [key: string]: number } = {};
+      jsonData.slice(0, 4).forEach((item) => {
+        initialCounts[item.id] = 1;
+      });
+      return initialCounts;
     }
+  );
+  const handleItemCountChange = (itemId: string, newCount: number) => {
+    setItemCounts((prevCounts) => ({
+      ...prevCounts,
+      [itemId]: newCount,
+    }));
   };
-
   const handleDelete = (itemId: string) => {
-    const newItems = basketItems.filter((item) => item.id !== itemId);
-    setBasketItems(newItems);
+    setBasketItems((prev) => prev.filter((item) => item.id !== itemId));
+    setItemCounts((prev) => {
+      const newState = { ...prev };
+      delete newState[itemId];
+      return newState;
+    });
   };
 
   const subtotal: number = basketItems.reduce((total, item) => {
@@ -131,21 +151,30 @@ const BasketItems: React.FC<ItemsListProps> = ({
   const discount = subtotal > 300 ? subtotal * 0.1 : 0;
   const totalAfterDiscount = subtotal - discount;
 
+  // Check if basket is empty
+  const isEmpty =
+    Object.values(itemCounts).every((count) => count === 0) ||
+    basketItems.length === 0;
+
   return (
     <>
-      <div className="basket-container">
-        <BaskedLabels />
-        {basketItems.map((item) => (
-          <ItemComponent
-            key={item.id}
-            {...item}
-            count={itemCounts[item.id] || 0}
-            onItemCountChange={onItemCountChange}
-            handleDelete={handleDelete}
-          />
-        ))}
-        {promotionApplied && <div>Køb 3, få 1 gratis!</div>}
-      </div>
+      <BaskedLabels />
+      {isEmpty ? (
+        <Alert severity="info">Your basket is empty.</Alert>
+      ) : (
+        <div className="basket-container">
+          {basketItems.map((item) => (
+            <ItemComponent
+              key={item.id}
+              {...item}
+              count={itemCounts[item.id]}
+              onItemCountChange={handleItemCountChange}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
+
       {/*<div className="subTotal">Subtotal: {subtotal}</div> */}
       <div className="subTotal">
         <p className="div1">

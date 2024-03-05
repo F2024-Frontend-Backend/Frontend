@@ -6,6 +6,8 @@ import { ImBin } from "react-icons/im";
 import DeleteIcon from "../Basket/DeleteIcon";
 import { useState, useEffect } from "react";
 
+import Rebate from "../ItemRebate/ItemRebate";
+
 let totalPrice: number;
 let shoppingItems: number;
 shoppingItems = 4;
@@ -92,36 +94,38 @@ const ItemsList: React.FC<itemProps> = ({
     count,
   }) => {
 
-    
-
     totalPrice = price * count;
     return (
       <>
         <div className="itemContainer" key={id}>
-          <div>
-            {imageUrl && <img className="image" src={imageUrl} alt="" />}
+        {imageUrl && <img className="image" src={imageUrl} alt="" />}
+          <div className="itemInnerContainer">
+            
             <span className="name box2">
               <strong>{name}</strong>
             </span>
-            { rebate({rebatePercent, rebateQuantity, count})}
+            
+            
             <span className="price">
               {price}
               <span className="currency">{currency}</span>
             </span>
-            <span className="quantity box4">{count}</span>
-            <span className="total box5">{totalPrice}</span>
+            <Rebate rebatePercent={rebatePercent} rebateQuantity={rebateQuantity} count={count}></Rebate>
+            
             <span className="counterButton">
+              
               <CounterButton
                 onCountChange={(newCount) => onItemCountChange(id, newCount)}
                 min={0}
                 max={5}
               />
-              <div className="deleteIcon">
-                {<DeleteIcon itemId={id} onClick={handleDelete} /> }
-                <ImBin />
-              </div>
             </span>
           </div>
+          <span className="total box5">{totalPrice}</span>
+          <div className="deleteIcon">
+                {<DeleteIcon itemId={id} onClick={handleDelete} /> }
+                
+              </div>
         </div>
       </>
     );
@@ -183,29 +187,7 @@ const ItemsList: React.FC<itemProps> = ({
   );
 };
 
-interface ReabteProps {
-  rebateQuantity: number;
-  rebatePercent: number;
-  count: number;
-}
 
-const rebate: React.FC<ReabteProps> = ({
-  rebatePercent,
-  rebateQuantity,
-  count,
-}) => {
-  const [expanded, setExpanded] = useState(false);
-
-  if (rebateQuantity > 0 && rebateQuantity > count ) {
-    console.log("if accepted")
-    return (
-      <div className="reabte">
-        <span>Buy {rebateQuantity} get {rebatePercent}% off</span>
-      </div>
-    )
-    
-  }
-}
 
 
 export default ItemsList;

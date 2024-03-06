@@ -1,0 +1,7 @@
+.carouselItem {
+    display: none;
+}
+
+.active {
+    display: block;
+}

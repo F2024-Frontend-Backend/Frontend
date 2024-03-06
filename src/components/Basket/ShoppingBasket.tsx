@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 
 import Rebate from "../ItemRebate/ItemRebate";
 
+import Carousel from "../Carousel/Carousel";
+
 let totalPrice: number;
 let shoppingItems: number;
 shoppingItems = 4;
@@ -183,6 +185,7 @@ const ItemsList: React.FC<itemProps> = ({
           </span>
         </p>
       </div>
+        <Carousel itemList={basketItems}></Carousel>
     </>
   );
 };

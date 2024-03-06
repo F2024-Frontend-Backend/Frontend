@@ -5,6 +5,11 @@ import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
 import DeleteIcon from "../Basket/DeleteIcon"; // Ensure DeleteIcon supports onClick prop
 import Alert from "@mui/lab/Alert";
+import {
+  initializeItemCounts,
+  calculateSubtotal,
+  calculateDiscount,
+} from "./BasketUtilities";
 
 // Fetch Items from file
 const getItems = async (filePath: RequestInfo, fileType: String) => {
@@ -21,7 +26,7 @@ const getItems = async (filePath: RequestInfo, fileType: String) => {
   }
 };
 // Define Props interfaces for TypeScript
-interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;
@@ -32,14 +37,14 @@ interface Product {
   //count?: number;
 }
 
-interface BasketItemProps {
+export interface BasketItemProps {
   product: Product;
   count: number;
   onItemCountChange: (itemId: string, newCount: number) => void;
   handleDelete: (itemId: string) => void;
 }
 
-interface ItemsListProps {
+export interface ItemsListProps {
   items: Product[];
   itemCounts: { [key: string]: number };
   onItemCountChange: (itemId: string, newCount: number) => void;
@@ -74,7 +79,16 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
     <div className="item-container">
       {imageUrl && <img className="image" src={imageUrl} alt={name} />}
       <div className="item-details">
-        <span className="name box2">
+        <ul>
+          <li className="name box2">
+            <strong>{name}</strong>
+          </li>
+          <li className="price">{price}</li>
+          <li className="currency">{currency}</li>
+          <li className="quantity box4">{count}</li>
+          <li className="total box5">{totalPrice}</li>
+        </ul>
+        {/*<span className="name box2">
           <strong>{name}</strong>
         </span>
         <span></span>
@@ -84,6 +98,7 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
         </span>
         <span className="quantity box4">{count}</span>
         <span className="total box5">{totalPrice}</span>
+        */}
         <span className="counterButton">
           <CounterButton
             onCountChange={(newCount) => onItemCountChange(id, newCount)}
@@ -114,15 +129,15 @@ const BasketItems: React.FC<ItemsListProps> = ({
   const [basketItems, setBasketItems] = useState<Product[]>(
     jsonData.slice(0, 4)
   );
+
+  // Intialize items in the basket by 1 per item
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
     () => {
-      const initialCounts: { [key: string]: number } = {};
-      jsonData.slice(0, 4).forEach((item) => {
-        initialCounts[item.id] = 1;
-      });
-      return initialCounts;
+      // Make sure to return the result of initializeItemCounts
+      return initializeItemCounts(jsonData.slice(0, 4));
     }
   );
+
   const handleItemCountChange = (itemId: string, newCount: number) => {
     setItemCounts((prevCounts) => ({
       ...prevCounts,
@@ -138,17 +153,11 @@ const BasketItems: React.FC<ItemsListProps> = ({
     });
   };
 
-  const subtotal: number = basketItems.reduce((total, item) => {
-    const itemCount = itemCounts[item.id] || 0;
-    /* if (itemCount > 2) {
-      return total + item.price * (itemCount - 1);
-    } else {
-      return total + item.price * itemCount;
-    }*/
-    const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
-    return total + item.price * effectiveCount;
-  }, 0);
-  const discount = subtotal > 300 ? subtotal * 0.1 : 0;
+  // Calculate subtotal
+  const subtotal = calculateSubtotal(basketItems, itemCounts);
+
+  // Calculate Discount
+  const discount = calculateDiscount(subtotal);
   const totalAfterDiscount = subtotal - discount;
 
   // Check if basket is empty
@@ -182,10 +191,12 @@ const BasketItems: React.FC<ItemsListProps> = ({
           <span className="div2">{subtotal}</span>
         </p>
 
-        <p className="div3">
-          Discount
-          <span className="div4">-{discount}</span>
-        </p>
+        {discount > 0 && (
+          <p className="div3">
+            Discount 10%
+            <span className="div4">-{discount}</span>
+          </p>
+        )}
         <p className="div5">
           Shipping
           <span className="div6">-</span>

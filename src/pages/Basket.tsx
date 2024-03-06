@@ -12,13 +12,37 @@ const Basket = () => {
     setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
   };
 
+  const [emptyBasket, setBasketEmpty] = useState(false);
+  const checkIfBasketIsEmpty = () => {
+    const isEmpty =
+      Object.keys(itemCount).length === 0 ||
+      Object.values(itemCount).every((count) => count === 0);
+    setBasketEmpty(isEmpty);
+  };
+
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    checkIfBasketIsEmpty();
+    setShowAlert(emptyBasket);
+  }, [itemCount]);
+
   return (
     <>
-      <BasketItems
-        items={jsonData}
-        onItemCountChange={handleItemCountChange}
-        itemCounts={itemCount}
-      />
+      {emptyBasket && showAlert && (
+        <Alert severity="info" onClose={() => setShowAlert(false)}>
+          Your basket is empty.
+        </Alert>
+      )}
+      {!emptyBasket && (
+        <>
+          <BasketItems
+            items={jsonData}
+            onItemCountChange={handleItemCountChange}
+            itemCounts={itemCount}
+          />
+        </>
+      )}
 
       <button>
         <Link to={`/checkout`}>Go to checkout </Link>

@@ -2,7 +2,7 @@ import BasketItems from "../components/Basket/ShoppingBasket";
 import { useEffect, useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
-import Alert from "@mui/lab/Alert";
+import Alert from "@mui/material/Alert";
 
 const Basket = () => {
   const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
@@ -27,9 +27,17 @@ const Basket = () => {
     setShowAlert(emptyBasket);
   }, [itemCount]);
 
+  // Debugging
+  console.log("I am before return in Basket");
+  useEffect(() => {
+    checkIfBasketIsEmpty();
+    setShowAlert(emptyBasket);
+    console.log(`emptyBasket: ${emptyBasket}, showAlert: ${showAlert}`);
+  }, [itemCount, emptyBasket, showAlert]);
+
   return (
     <>
-      {emptyBasket && showAlert && (
+      {/*{emptyBasket && showAlert && (
         <Alert severity="info" onClose={() => setShowAlert(false)}>
           Your basket is empty.
         </Alert>
@@ -43,7 +51,12 @@ const Basket = () => {
           />
         </>
       )}
-
+ */}
+      <BasketItems
+        items={jsonData}
+        onItemCountChange={handleItemCountChange}
+        itemCounts={itemCount}
+      />
       <button>
         <Link to={`/checkout`}>Go to checkout </Link>
       </button>

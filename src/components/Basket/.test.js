@@ -1,20 +1,13 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import ShoppingBasket from './ShoppingBasket'
-import CounterButton from './CounterButton';
-
-//test block
-test("increments counter", () => {
-    // render the component on virtual dom
-    render(<Counter />);
-    
-    //select the elements you want to interact with
-    const counter = screen.getByTestId("counter");
-    const incrementBtn = screen.getByTestId("increment");
-    
-    //interact with those elements
-    fireEvent.click(incrementBtn);
-    
-    //assert the expected result
-    expect(counter).toHaveTextContent("1");
-    });
+/*
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { BasketComponent } from './BasketComponent';
+import {useBasketState} from './useBasketState'
+import { ItemDetails } from './BasketItem';
+/*
+discribe('BasketComponent', () =>{
+    test ("Remove items" , () => {
+        const items = [{id: 1, name: 'Item 1', price: 10} , {id: 2, name: 'Item 2', price: 20}]
+        render(<ItemDetails {items}/>)
+    })
+})*/

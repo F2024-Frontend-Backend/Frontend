@@ -49,7 +49,7 @@ interface CarouselItemProps {
           <button onClick={goBack}>〈</button>
 
           {itemList.map((item:CarouselItemProps)=>(
-             <div key={carouselID++}>
+             <div className={currentCarrousel.includes(carouselID) ? "carouselItem" : "inactive carouselItem"} key={carouselID++}>
              <CarouselItem
                carouselID={carouselID}
                id={item.id}

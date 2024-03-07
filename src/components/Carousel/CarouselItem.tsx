@@ -22,9 +22,14 @@ interface CarouselItemProps {
     currentCarrousel,
   }) => {
     return(
-        <div className={currentCarrousel.includes(carouselID) ? "active carouselItem" : "carouselItem"}>
-            <span>{carouselID} {name}</span>
-        </div>
+        <>
+            <div className="imageContainer">
+              {imageUrl && <img className="image1" src={imageUrl} alt="" />}
+            </div>
+            <span className="title">{name}</span>
+            <span className="price">{price} {currency}</span>
+            <button>Add to basket</button>
+        </>
     )
   }
 

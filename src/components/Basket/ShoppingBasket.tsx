@@ -15,23 +15,6 @@ let shoppingItems: number;
 shoppingItems = 4;
 
 
-
-  // Fetch Items from file
-  const getItems = async (filePath: RequestInfo, fileType: String) => {
-    try{ 
-      const response = await fetch(filePath);
-      switch (fileType.toUpperCase()) {
-          case 'JSON':
-             return response.json();
-          default:
-             return response;
-             
-      }
-  } catch (error) {
-      return error;
-  }
-  }
-
 interface Props {
   id: string;
   name: string;
@@ -45,75 +28,20 @@ interface Props {
 }
 
 interface itemProps {
-  items: typeof jsonData; // An array of items
+  basketItems: never[];
+  setBasketItems: (value: never[]) => void;
   itemCounts: { [key: string]: number };
   onItemCountChange: (itemId: string, newCount: number) => void;
 }
 
-/**
- * TODO
- */
-
-
 
 
 const ItemsList: React.FC<itemProps> = ({
-  items,
+  basketItems,
+  setBasketItems,
   onItemCountChange,
   itemCounts,
 }) => {
-
-  const [allItems, setAllItems] = useState([])
-  const [basketItems, setBasketItems] = useState([])
-  const [carouselItems, setCarouselItems] = useState([])
-
-  useEffect(() => {
-    fetchItems();
-    }, [])
-
-    const fetchItems = async () => {
-      try {
-        const response = await getItems('src/data.json', 'json');
-        setAllItems(response)
-        setBasketItems(response.slice(0, 5));
-        console.log(response)
-        generateCarouselItems(response, response.slice(0, 5))
-        
-      } catch (error) {
-        console.error(error);
-      }
-   };
-
-   const generateCarouselItems = (allItems: any, basketItems: any) => {
-      let newCarousel: any = [];
-
-      console.log("basket" + basketItems)
-
-      console.log("all" + allItems)
-      console.log("in all: " + allItems[0])
-
-      let upsellIds :string[] = [];
-
-      basketItems.map((item: Props) => {
-        if (item.upsellProductId != null) {
-          const upsellId = item.upsellProductId;
-
-          upsellIds.push(upsellId)
-        }
-      }) 
-
-      allItems.map((item: Props) => {
-        if (upsellIds.includes(item.id)) {
-          newCarousel.push(item);
-        }
-      })
-      console.log("new: " + newCarousel)
-      setCarouselItems(newCarousel)
-
-      console.log("upsell: " + upsellIds)
-      console.log("new :" + newCarousel)
-
-   }  
 
    const handleDelete = (itemId: string) => {
     console.log("Delete is clicked!");
@@ -171,7 +99,7 @@ const ItemsList: React.FC<itemProps> = ({
     );
   };
 
-  const subtotal = items.slice(0, shoppingItems).reduce((total, item) => {
+  const subtotal = basketItems.reduce((total, item:Props) => {
     const itemCount = itemCounts[item.id] || 0;
     return total + itemCount * item.price;
   }, 0);
@@ -192,9 +120,10 @@ const ItemsList: React.FC<itemProps> = ({
                 imageUrl={item.imageUrl}
                 count={itemCounts[item.id] || 0}
                 onItemCountChange={onItemCountChange}
-                items={items}
-                itemCounts={itemCounts}
                 upsellProductId={item.upsellProductId}
+                basketItems={basketItems}
+                setBasketItems={setBasketItems}
+                itemCounts={itemCounts}
               />
             </div>
           ))
@@ -224,7 +153,7 @@ const ItemsList: React.FC<itemProps> = ({
           </span>
         </p>
       </div>
-        <Carousel itemList={carouselItems}></Carousel>
+        
     </>
   );
 };

@@ -17,12 +17,10 @@ interface ReabteProps {
 
     const expand = () => {
         setExpanded(true)
-        console.log("expand set")
     }
 
     const compress = () => {
         setExpanded(false)
-        console.log("compress set")
     }
   
     if (rebateQuantity > 0 && rebateQuantity > count ) {

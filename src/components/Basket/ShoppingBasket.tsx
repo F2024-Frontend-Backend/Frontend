@@ -116,9 +116,8 @@ const BasketItems: React.FC<ItemsListProps> = ({}) => {
   console.log(" Before return Basket Items.");
   return (
     <>
-      <h1>Just for test</h1>
       <BaskedLabels />
-      {/*
+
       {isEmpty ? (
         <Alert severity="info">Your basket is empty.</Alert>
       ) : (
@@ -133,7 +132,8 @@ const BasketItems: React.FC<ItemsListProps> = ({}) => {
             />
           ))}
         </div>
-      )}*/}
+      )}
+      {/*
       <div className="basket-container">
         {basketItems.map((item) => (
           <ItemComponent
@@ -145,6 +145,7 @@ const BasketItems: React.FC<ItemsListProps> = ({}) => {
           />
         ))}
       </div>
+      */}
       <div className="subTotal">
         <OrderItems
           subtotal={subtotal}

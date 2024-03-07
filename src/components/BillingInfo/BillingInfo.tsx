@@ -1,7 +1,6 @@
-import React from "react";
-import { useState } from "react";
-
-import "./BillingInfo.css"
+import React, { useState } from "react";
+import postalCodes from "./postalCode.json"; // Make sure this path is correct for your project structure
+import "./BillingInfo.css";
 
 const BillingInfo = () => {
   const [firstName, setFirstName] = useState("");
@@ -11,112 +10,164 @@ const BillingInfo = () => {
   const [city, setCity] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [isBillingDifferent, setIsBillingDifferent] = useState(false);
+  const [deliveryPostal, setDeliveryPostal] = useState("");
+  const [deliveryCity, setDeliveryCity] = useState("");
 
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
-
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
+  const findCityByPostalCode = (postalCode: string) => {
+    const entry = postalCodes.find((item) => item.nr === postalCode);
+    return entry ? entry.navn : null;
   };
 
   const handlePostalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPostal(event.target.value);
+    const postalCode = event.target.value;
+    setPostal(postalCode);
+    const cityName = findCityByPostalCode(postalCode);
+    if (cityName) {
+      setCity(cityName);
+    } else {
+      setCity("");
+    }
   };
 
-  const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(event.target.value);
-  };
-
-  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNumber(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleDeliveryPostalChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const postalCode = event.target.value;
+    setDeliveryPostal(postalCode);
+    const cityName = findCityByPostalCode(postalCode);
+    if (cityName) {
+      setDeliveryCity(cityName);
+    } else {
+      setDeliveryCity("");
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Address:", address);
-    console.log("Postal Code:", postal);
-    console.log("City:", city);
-    console.log("Phone Number:", number);
-    console.log("Email:", email);
+    console.log("Form Submission:", {
+      firstName,
+      lastName,
+      address,
+      postal,
+      city,
+      number,
+      email,
+      deliveryPostal: isBillingDifferent ? deliveryPostal : null,
+      deliveryCity: isBillingDifferent ? deliveryCity : null,
+    });
+    // Add logic here to process form submission, such as sending data to a backend server
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="fname">First name:</label>
-      <input
-        type="text"
-        id="fname"
-        name="fname"
-        value={firstName}
-        onChange={handleFirstNameChange}
-      />
+    <form onSubmit={handleSubmit} className="billing-info-form">
+      <div>
+        <label htmlFor="fname">First Name:</label>
+        <input
+          type="text"
+          id="fname"
+          name="fname"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+      </div>
 
-      <label htmlFor="lname">Last name:</label>
-      <input
-        type="text"
-        id="lname"
-        name="lname"
-        value={lastName}
-        onChange={handleLastNameChange}
-      />
+      <div>
+        <label htmlFor="lname">Last Name:</label>
+        <input
+          type="text"
+          id="lname"
+          name="lname"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      </div>
 
-      <label htmlFor="address">Address:</label>
-      <input
-        type="text"
-        id="address"
-        name="address"
-        value={address}
-        onChange={handleAddressChange}
-      />
+      <div>
+        <label htmlFor="address">Address:</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+      </div>
 
-      <label htmlFor="post">Postal Code:</label>
-      <input
-        type="text"
-        id="post"
-        name="post"
-        value={postal}
-        onChange={handlePostalChange}
-      />
+      <div>
+        <label htmlFor="post">Postal Code:</label>
+        <input
+          type="text"
+          id="post"
+          name="post"
+          value={postal}
+          onChange={handlePostalChange}
+        />
+      </div>
 
-      <label htmlFor="city">City:</label>
-      <input
-        type="text"
-        id="city"
-        name="city"
-        value={city}
-        onChange={handleCityChange}
-      />
+      <div>
+        <label htmlFor="city">City:</label>
+        <input type="text" id="city" name="city" value={city} readOnly />
+      </div>
 
-      <label htmlFor="number">Phone Number:</label>
-      <input
-        type="text"
-        id="number"
-        name="number"
-        value={number}
-        onChange={handleNumberChange}
-      />
+      <div>
+        <label htmlFor="number">Phone Number:</label>
+        <input
+          type="text"
+          id="number"
+          name="number"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
+        />
+      </div>
 
-      <label htmlFor="email">E-Mail:</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value={email}
-        onChange={handleEmailChange}
-      />
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={isBillingDifferent}
+            onChange={(e) => setIsBillingDifferent(e.target.checked)}
+          />{" "}
+          Delivery to a different address
+        </label>
+      </div>
+
+      {isBillingDifferent && (
+        <>
+          <div>
+            <label htmlFor="deliveryPostal">Delivery Postal Code:</label>
+            <input
+              type="text"
+              id="deliveryPostal"
+              name="deliveryPostal"
+              value={deliveryPostal}
+              onChange={handleDeliveryPostalChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="deliveryCity">Delivery City:</label>
+            <input
+              type="text"
+              id="deliveryCity"
+              name="deliveryCity"
+              value={deliveryCity}
+              readOnly
+            />
+          </div>
+        </>
+      )}
 
       <button type="submit">Submit</button>
     </form>

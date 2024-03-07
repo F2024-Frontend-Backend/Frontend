@@ -41,6 +41,7 @@ interface Props {
   rebatePercent: number;
   imageUrl?: string;
   count: number;
+  upsellProductId: string;
 }
 
 interface itemProps {
@@ -62,7 +63,9 @@ const ItemsList: React.FC<itemProps> = ({
   itemCounts,
 }) => {
 
+  const [allItems, setAllItems] = useState([])
   const [basketItems, setBasketItems] = useState([])
+  const [carouselItems, setCarouselItems] = useState([])
 
   useEffect(() => {
     fetchItems();
@@ -71,12 +74,46 @@ const ItemsList: React.FC<itemProps> = ({
     const fetchItems = async () => {
       try {
         const response = await getItems('src/data.json', 'json');
-        setBasketItems(response);
+        setAllItems(response)
+        setBasketItems(response.slice(0, 5));
         console.log(response)
+        generateCarouselItems(response, response.slice(0, 5))
+        
       } catch (error) {
         console.error(error);
       }
    };
+
+   const generateCarouselItems = (allItems: any, basketItems: any) => {
+      let newCarousel: any = [];
+
+      console.log("basket" + basketItems)
+
+      console.log("all" + allItems)
+      console.log("in all: " + allItems[0])
+
+      let upsellIds :string[] = [];
+
+      basketItems.map((item: Props) => {
+        if (item.upsellProductId != null) {
+          const upsellId = item.upsellProductId;
+
+          upsellIds.push(upsellId)
+        }
+      }) 
+
+      allItems.map((item: Props) => {
+        if (upsellIds.includes(item.id)) {
+          newCarousel.push(item);
+        }
+      })
+      console.log("new: " + newCarousel)
+      setCarouselItems(newCarousel)
+
+      console.log("upsell: " + upsellIds)
+      console.log("new :" + newCarousel)
+
+   }  
 
    const handleDelete = (itemId: string) => {
     console.log("Delete is clicked!");
@@ -94,6 +131,7 @@ const ItemsList: React.FC<itemProps> = ({
     imageUrl,
     onItemCountChange,
     count,
+    upsellProductId,
   }) => {
 
     totalPrice = price * count;
@@ -156,6 +194,7 @@ const ItemsList: React.FC<itemProps> = ({
                 onItemCountChange={onItemCountChange}
                 items={items}
                 itemCounts={itemCounts}
+                upsellProductId={item.upsellProductId}
               />
             </div>
           ))
@@ -185,7 +224,7 @@ const ItemsList: React.FC<itemProps> = ({
           </span>
         </p>
       </div>
-        <Carousel itemList={basketItems}></Carousel>
+        <Carousel itemList={carouselItems}></Carousel>
     </>
   );
 };

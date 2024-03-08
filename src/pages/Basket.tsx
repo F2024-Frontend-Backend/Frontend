@@ -4,18 +4,9 @@ import jsonData from "../data.json";
 import { Link } from "react-router-dom";
 
 import Carousel from "../components/Carousel/Carousel";
+import {ItemProps} from "../interfaces/interfaces"
 
-interface Props {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  rebateQuantity: number;
-  rebatePercent: number;
-  imageUrl?: string;
-  count: number;
-  upsellProductId: string;
-}
+
 
 // Fetch Items from file
 const getItems = async (filePath: RequestInfo, fileType: String) => {
@@ -42,9 +33,9 @@ const Basket = () => {
     setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
   };
 
-  const [allItems, setAllItems] = useState([])
-  const [basketItems, setBasketItems] = useState([])
-  const [carouselItems, setCarouselItems] = useState([])
+  const [allItems, setAllItems] = useState<ItemProps[]>([])
+  const [basketItems, setBasketItems] = useState<ItemProps[]>([])
+  const [carouselItems, setCarouselItems] = useState<ItemProps[]>([])
 
   useEffect(() => {
     fetchItems();
@@ -65,33 +56,37 @@ const Basket = () => {
 
    const generateCarouselItems = (allItems: any, basketItems: any) => {
     let newCarousel: any = [];
-
-    console.log("basket" + basketItems)
-
-    console.log("all" + allItems)
-    console.log("in all: " + allItems[0])
-
     let upsellIds :string[] = [];
+    let basketIds :string[] = [];
 
-    basketItems.map((item: Props) => {
+    basketItems.map((item: ItemProps) => {
+      basketIds.push(item.id)
+
       if (item.upsellProductId != null) {
-        const upsellId = item.upsellProductId;
-
-        upsellIds.push(upsellId)
+        upsellIds.push(item.upsellProductId)
       }
     }) 
 
-    allItems.map((item: Props) => {
-      if (upsellIds.includes(item.id)) {
+    allItems.map((item: ItemProps) => {
+      if (upsellIds.includes(item.id) && !basketIds.includes(item.id)) {
+        
         newCarousel.push(item);
       }
     })
-    console.log("new: " + newCarousel)
     setCarouselItems(newCarousel)
 
-    console.log("upsell: " + upsellIds)
-    console.log("new :" + newCarousel)
+ }
 
+ const addToBasket = (id: string) => {
+    allItems.forEach((item:ItemProps) => {
+      if (item.id === id) {
+        const newBasket: ItemProps[] = basketItems
+        newBasket.push(item)
+
+        setBasketItems(newBasket)
+        generateCarouselItems(allItems, basketItems)
+      }
+    })
  }
 
   return (
@@ -107,7 +102,7 @@ const Basket = () => {
         <Link to={`/checkout`}>Go to checkout </Link>
       </button>
 
-      <Carousel itemList={carouselItems}></Carousel>
+      <Carousel itemList={carouselItems} addToBasket={addToBasket}></Carousel>
     </>
   );
 };

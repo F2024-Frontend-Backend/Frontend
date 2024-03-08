@@ -3,22 +3,16 @@ import { useState } from "react";
 import CarouselItem from "./CarouselItem";
 import "./Carousel.css";
 
-interface CarouselProps {
-    itemList: never[];
-  }
+import {ItemProps, CarouselItemProps} from "../../interfaces/interfaces";
 
-interface CarouselItemProps {
-    carouselID: number;  
-    id: string;
-    name: string;
-    price: number;
-    currency: string;
-    imageUrl?: string;
-    currentCarrousel: number[];
+interface CarouselProps {
+    itemList: ItemProps[];
+    addToBasket: (id : string) => void;
   }
 
   const Carousel: React.FC<CarouselProps> = ({
     itemList,
+    addToBasket,
   }) => {
 
     let carouselID = 0;
@@ -48,16 +42,17 @@ interface CarouselItemProps {
         <div className="carouselSection">
           <button onClick={goBack}>〈</button>
 
-          {itemList.map((item:CarouselItemProps)=>(
+          {itemList.map((item:ItemProps)=>(
              <div className={currentCarrousel.includes(carouselID) ? "carouselItem" : "inactive carouselItem"} key={carouselID++}>
              <CarouselItem
-               carouselID={carouselID}
+               carouselID={item.id}
                id={item.id}
                name={item.name}
                price={item.price}
                currency={item.currency}
                imageUrl={item.imageUrl}
                currentCarrousel={currentCarrousel}
+               addToBasket={addToBasket}
              />
            </div>
           ))}

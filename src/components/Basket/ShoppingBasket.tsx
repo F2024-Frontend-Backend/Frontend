@@ -8,35 +8,14 @@ import { useState, useEffect } from "react";
 
 import Rebate from "../ItemRebate/ItemRebate";
 
-import Carousel from "../Carousel/Carousel";
+import { ItemProps, ItemListProps } from "../../interfaces/interfaces";
 
 let totalPrice: number;
 let shoppingItems: number;
 shoppingItems = 4;
 
 
-interface Props {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  rebateQuantity: number;
-  rebatePercent: number;
-  imageUrl?: string;
-  count: number;
-  upsellProductId: string;
-}
-
-interface itemProps {
-  basketItems: never[];
-  setBasketItems: (value: never[]) => void;
-  itemCounts: { [key: string]: number };
-  onItemCountChange: (itemId: string, newCount: number) => void;
-}
-
-
-
-const ItemsList: React.FC<itemProps> = ({
+const ItemsList: React.FC<ItemListProps> = ({
   basketItems,
   setBasketItems,
   onItemCountChange,
@@ -45,11 +24,11 @@ const ItemsList: React.FC<itemProps> = ({
 
    const handleDelete = (itemId: string) => {
     console.log("Delete is clicked!");
-    const newItems = basketItems.filter((item:Props) => item.id !== itemId)
+    const newItems: ItemProps[] = basketItems.filter((item:ItemProps) => item.id !== itemId)
     setBasketItems(newItems)
   };
 
-   const Item: React.FC<Props & itemProps> = ({
+   const Item: React.FC<ItemProps & ItemListProps> = ({
     id,
     name,
     price,
@@ -99,7 +78,7 @@ const ItemsList: React.FC<itemProps> = ({
     );
   };
 
-  const subtotal = basketItems.reduce((total, item:Props) => {
+  const subtotal = basketItems.reduce((total, item:ItemProps) => {
     const itemCount = itemCounts[item.id] || 0;
     return total + itemCount * item.price;
   }, 0);
@@ -108,7 +87,7 @@ const ItemsList: React.FC<itemProps> = ({
       <div className="basket-container">
         <BaskedLabels />
         {
-          basketItems.map((item:Props) => (
+          basketItems.map((item:ItemProps) => (
             <div key={item.id}>
               <Item
                 id={item.id}

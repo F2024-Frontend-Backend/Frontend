@@ -69,7 +69,7 @@ const Basket = () => {
 
     allItems.map((item: ItemProps) => {
       if (upsellIds.includes(item.id) && !basketIds.includes(item.id)) {
-        
+
         newCarousel.push(item);
       }
     })

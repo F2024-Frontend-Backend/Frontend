@@ -16,7 +16,7 @@ interface CarouselProps {
   }) => {
 
     let carouselID = 0;
-    const carouselMax = itemList.length;
+    const carouselMax = itemList.length -1;
     const [currentCarrousel, setCurrentCarousel] = useState([0,1,2])
     
 
@@ -38,9 +38,11 @@ interface CarouselProps {
       }
    }
 
+   
+
     return(
         <div className="carouselSection">
-          <button onClick={goBack}>〈</button>
+          <button className={currentCarrousel[0] === 0 ? "inactive" : ""} onClick={goBack}>〈</button>
 
           {itemList.map((item:ItemProps)=>(
              <div className={currentCarrousel.includes(carouselID) ? "carouselItem" : "inactive carouselItem"} key={carouselID++}>
@@ -56,7 +58,7 @@ interface CarouselProps {
              />
            </div>
           ))}
-          <button onClick={goForward}>〉</button>
+          <button className={currentCarrousel[2] < carouselMax ? "" : "inactive"} onClick={goForward}>〉</button>
         </div>
     )
     

@@ -1,7 +1,11 @@
-import ItemsList from "../components/Basket/ShoppingBasket";
-import { useState, useEffect } from "react";
+
+import BasketItems from "../components/Basket/ShoppingBasket";
+import { useEffect, useState } from "react";
+
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import "./ShoppingBasket.css";
 
 import Carousel from "../components/Carousel/Carousel";
 import {ItemProps} from "../interfaces/interfaces"
@@ -33,10 +37,12 @@ const Basket = () => {
     setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
   };
 
+
+  const [emptyBasket, setBasketEmpty] = useState(false);
   const [allItems, setAllItems] = useState<ItemProps[]>([])
   const [basketItems, setBasketItems] = useState<ItemProps[]>([])
-  const [carouselItems, setCarouselItems] = useState<ItemProps[]>([])
-
+  const [carouselItems, setCarouselItems] = useState<ItemProps[]>([])      
+        
   useEffect(() => {
     fetchItems();
     }, [])
@@ -52,9 +58,31 @@ const Basket = () => {
       } catch (error) {
         console.error(error);
       }
-   };
+   };  
+    
+  const checkIfBasketIsEmpty = () => {
+    const isEmpty =
+      Object.keys(itemCount).length === 0 ||
+      Object.values(itemCount).every((count) => count === 0);
+    setBasketEmpty(isEmpty);
+  };
 
-   const generateCarouselItems = (allItems: any, basketItems: any) => {
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    checkIfBasketIsEmpty();
+    setShowAlert(emptyBasket);
+  }, [itemCount]);
+
+  // Debugging
+  console.log("I am before return in Basket");
+  useEffect(() => {
+    checkIfBasketIsEmpty();
+    setShowAlert(emptyBasket);
+    console.log(`emptyBasket: ${emptyBasket}, showAlert: ${showAlert}`);
+  }, [itemCount, emptyBasket, showAlert]);
+    
+    const generateCarouselItems = (allItems: any, basketItems: any) => {
     let newCarousel: any = [];
     let upsellIds :string[] = [];
     let basketIds :string[] = [];
@@ -74,10 +102,9 @@ const Basket = () => {
       }
     })
     setCarouselItems(newCarousel)
-
  }
-
- const addToBasket = (id: string) => {
+    
+    const addToBasket = (id: string) => {
     allItems.forEach((item:ItemProps) => {
       if (item.id === id) {
         const newBasket: ItemProps[] = basketItems
@@ -91,19 +118,22 @@ const Basket = () => {
 
   return (
     <>
-      <ItemsList
-        basketItems={basketItems}
-        setBasketItems={setBasketItems}
+      <BasketItems
+        items={jsonData}
         onItemCountChange={handleItemCountChange}
         itemCounts={itemCount}
-      />
-
-      <button>
+        />
+       <button>
         <Link to={`/checkout`}>Go to checkout </Link>
       </button>
 
       <Carousel itemList={carouselItems} addToBasket={addToBasket}></Carousel>
-    </>
+      </>
+
+        
+      
+      
+    
   );
 };
 

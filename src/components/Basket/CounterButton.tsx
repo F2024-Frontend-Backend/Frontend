@@ -1,40 +1,46 @@
 import { useState } from "react";
+import "./ShoppingBasket.css";
 
-interface Props {
+interface CounterButton {
   min?: number;
   max?: number;
+  //onCountChange: (newCount: number) => void;
   onCountChange: (newCount: number) => void;
 }
 
-export const CounterButton: React.FC<Props> = ({
-  min = 0,
+export const CounterButton: React.FC<CounterButton> = ({
+  min = 1,
   max = 5,
   onCountChange,
 }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
-  const handleClickSubtract = () => {
-    if (count > min) {
-      const newCount = count - 1;
+  // Function to handle decrement
+  const handleDecrement = () => {
+    const newCount = count - 1;
+    if (newCount >= min) {
       setCount(newCount);
       onCountChange(newCount);
     }
   };
-  const handleClickAddition = () => {
-    if (count < max) {
-      const newCount = count + 1;
+
+  // Function to handle increment
+  const handleIncrement = () => {
+    const newCount = count + 1;
+    if (newCount <= max) {
       setCount(newCount);
       onCountChange(newCount);
     }
   };
+
   return (
     <>
       <div className="buttons">
-        <button className="btn" onClick={handleClickSubtract}>
+        <button className="btn" onClick={handleDecrement}>
           <strong>-</strong>
         </button>
         <span className="btw">{count}</span>
-        <button className="btn" onClick={handleClickAddition}>
+        <button className="btn" onClick={handleIncrement}>
           <strong>+</strong>
         </button>
       </div>

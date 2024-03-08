@@ -11,6 +11,14 @@ const BillingInfo = () => {
   const [city, setCity] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
+  /**
+   * Halah
+   */
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  // 
 
   const handleFirstNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -36,11 +44,44 @@ const BillingInfo = () => {
 
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(event.target.value);
+
+    /**
+     * Halah 
+     */
+
+    const inputValue = event.target.value;
+    const isValidNumber = /^\d{8}$/.test(inputValue);
+
+    setIsPhoneNumberValid(isValidNumber || inputValue === "");
+    setPhoneNumberError(isValidNumber || inputValue === "" ? "" : "Please enter a valid phone number");
+
+     if (isValidNumber || inputValue === "") {
+      setNumber(inputValue);
+    }
   };
+  // 
+
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+
+    /**
+     * Halah 
+     */
+
+    const inputValue1 = event.target.value;
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputValue1);
+    
+    setIsEmailValid(isValidEmail || inputValue1 === "");
+    setEmailError(isValidEmail || inputValue1 === "" ? "" : "Please enter a valid email address");
+
+
+    if (isValidEmail || inputValue1 === "") {
+
+       setEmail(inputValue1);
+    }
   };
+  // 
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -107,7 +148,10 @@ const BillingInfo = () => {
         name="number"
         value={number}
         onChange={handleNumberChange}
+        className={isPhoneNumberValid ? "": "invalid"}
       />
+      {!isPhoneNumberValid && <p className="error-message">{phoneNumberError}</p>}
+
 
       <label htmlFor="email">E-Mail:</label>
       <input
@@ -116,7 +160,11 @@ const BillingInfo = () => {
         name="email"
         value={email}
         onChange={handleEmailChange}
+        className={isEmailValid ? "" : "invalid"}
+
+        
       />
+      {!isEmailValid && <p className="error-message">{emailError}</p>}
 
       <button type="submit">Submit</button>
     </form>

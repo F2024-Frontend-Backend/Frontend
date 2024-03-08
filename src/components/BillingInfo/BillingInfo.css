@@ -12,3 +12,15 @@ input {
     background-color: white;
     color: black;
 }
+/**
+* Halah 
+*/
+input:invalid {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+}

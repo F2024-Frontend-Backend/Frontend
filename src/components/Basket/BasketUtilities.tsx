@@ -1,4 +1,5 @@
 import { Product } from "./ShoppingBasket";
+import "./ShoppingBasket.css";
 
 const basketUtilities = () => {
   const initializeItemCounts = (items: Product[], initialCount = 1) => {

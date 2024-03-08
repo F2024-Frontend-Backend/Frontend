@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./ShoppingBasket.css";
 import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
-import DeleteIcon from "../Basket/DeleteIcon"; // Ensure DeleteIcon supports onClick prop
 import Alert from "@mui/material/Alert";
 
 import basketUtilities from "./BasketUtilities";
@@ -133,19 +132,6 @@ const BasketItems: React.FC<ItemsListProps> = ({}) => {
           ))}
         </div>
       )}
-      {/*
-      <div className="basket-container">
-        {basketItems.map((item) => (
-          <ItemComponent
-            key={item.id}
-            {...item}
-            count={itemCounts[item.id]}
-            onItemCountChange={handleItemCountChange}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </div>
-      */}
       <div className="subTotal">
         <OrderItems
           subtotal={subtotal}

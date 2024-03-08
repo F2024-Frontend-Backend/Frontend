@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import "./ShoppingBasket.css";
 
 const Basket = () => {
   const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
@@ -37,21 +38,6 @@ const Basket = () => {
 
   return (
     <>
-      {/*{emptyBasket && showAlert && (
-        <Alert severity="info" onClose={() => setShowAlert(false)}>
-          Your basket is empty.
-        </Alert>
-      )}
-      {!emptyBasket && (
-        <>
-          <BasketItems
-            items={jsonData}
-            onItemCountChange={handleItemCountChange}
-            itemCounts={itemCount}
-          />
-        </>
-      )}
- */}
       <BasketItems
         items={jsonData}
         onItemCountChange={handleItemCountChange}

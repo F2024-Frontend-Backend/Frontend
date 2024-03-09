@@ -5,14 +5,22 @@ import "./BillingInfo.css";
 const BillingInfo = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
+  //const [address, setAddress] = useState("");
+  const [addressLine1, setAddressLine1] = useState(""); // Tilføjet
+  const [addressLine2, setAddressLine2] = useState(""); // Tilføjet
   const [postal, setPostal] = useState("");
   const [city, setCity] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [isBillingDifferent, setIsBillingDifferent] = useState(false);
+  const [deliveryFirstName, setDeliveryFirstName] = useState("");
+  const [deliveryLastName, setDeliveryLastName] = useState("");
+  const [deliveryAddressLine1, setDeliveryAddressLine1] = useState("");
+  const [deliveryAddressLine2, setDeliveryAddressLine2] = useState("");
   const [deliveryPostal, setDeliveryPostal] = useState("");
   const [deliveryCity, setDeliveryCity] = useState("");
+  const [postalError, setPostalError] = useState("");
+  const [deliveryPostalError, setDeliveryPostalError] = useState("");
 
   const findCityByPostalCode = (postalCode: string) => {
     const entry = postalCodes.find((item) => item.nr === postalCode);
@@ -22,11 +30,19 @@ const BillingInfo = () => {
   const handlePostalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const postalCode = event.target.value;
     setPostal(postalCode);
+    // Clear the error message if the postal code field is empty
+    if (!postalCode) {
+      setPostalError("");
+      setCity("");
+      return; // Exit the function early
+    }
     const cityName = findCityByPostalCode(postalCode);
     if (cityName) {
       setCity(cityName);
+      setPostalError(""); // Clear any existing error message
     } else {
       setCity("");
+      setPostalError("Invalid postal code entered."); // Set an error message
     }
   };
 
@@ -35,11 +51,21 @@ const BillingInfo = () => {
   ) => {
     const postalCode = event.target.value;
     setDeliveryPostal(postalCode);
+
+    // Clear the error message if the postal code field is empty
+    if (!postalCode) {
+      setDeliveryPostalError(""); // Correctly clear the delivery postal error message
+      setDeliveryCity("");
+      return; // Exit the function early
+    }
+
     const cityName = findCityByPostalCode(postalCode);
     if (cityName) {
       setDeliveryCity(cityName);
+      setDeliveryPostalError(""); // Correctly clear any existing error message for delivery postal code
     } else {
       setDeliveryCity("");
+      setDeliveryPostalError("Invalid delivery postal code entered."); // Set an error message for delivery postal code
     }
   };
 
@@ -48,7 +74,8 @@ const BillingInfo = () => {
     console.log("Form Submission:", {
       firstName,
       lastName,
-      address,
+      addressLine1,
+      addressLine2,
       postal,
       city,
       number,
@@ -84,13 +111,24 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="address">Address:</label>
+        <label htmlFor="addressLine1">Address Line 1:</label>
         <input
           type="text"
-          id="address"
-          name="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          id="addressLine1"
+          name="addressLine1"
+          value={addressLine1}
+          onChange={(e) => setAddressLine1(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="addressLine2">Address Line 2 (Optional):</label>
+        <input
+          type="text"
+          id="addressLine2"
+          name="addressLine2"
+          value={addressLine2}
+          onChange={(e) => setAddressLine2(e.target.value)}
         />
       </div>
 
@@ -103,6 +141,7 @@ const BillingInfo = () => {
           value={postal}
           onChange={handlePostalChange}
         />
+        {postalError && <div className="error-message">{postalError}</div>}
       </div>
 
       <div>
@@ -146,7 +185,52 @@ const BillingInfo = () => {
       {isBillingDifferent && (
         <>
           <div>
-            <label htmlFor="deliveryPostal">Delivery Postal Code:</label>
+            <label htmlFor="deliveryFirstName">First Name:</label>
+            <input
+              type="text"
+              id="deliveryFirstName"
+              name="deliveryFirstName"
+              value={deliveryFirstName}
+              onChange={(e) => setDeliveryFirstName(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="deliveryLastName"> Last Name:</label>
+            <input
+              type="text"
+              id="deliveryLastName"
+              name="deliveryLastName"
+              value={deliveryLastName}
+              onChange={(e) => setDeliveryLastName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="deliveryAddressLine1">Address Line 1:</label>
+            <input
+              type="text"
+              id="deliveryAddressLine1"
+              name="deliveryAddressLine1"
+              value={deliveryAddressLine1}
+              onChange={(e) => setDeliveryAddressLine1(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="deliveryAddressLine2">
+              Address Line 2 (Optional):
+            </label>
+            <input
+              type="text"
+              id="deliveryAddressLine2"
+              name="deliveryAddressLine2"
+              value={deliveryAddressLine2}
+              onChange={(e) => setDeliveryAddressLine2(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="deliveryPostal"> Postal Code:</label>
             <input
               type="text"
               id="deliveryPostal"
@@ -154,10 +238,13 @@ const BillingInfo = () => {
               value={deliveryPostal}
               onChange={handleDeliveryPostalChange}
             />
+            {deliveryPostalError && (
+              <div className="error-message">{deliveryPostalError}</div>
+            )}
           </div>
 
           <div>
-            <label htmlFor="deliveryCity">Delivery City:</label>
+            <label htmlFor="deliveryCity"> City:</label>
             <input
               type="text"
               id="deliveryCity"

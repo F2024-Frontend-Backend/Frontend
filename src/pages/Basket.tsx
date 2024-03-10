@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import jsonData from "../data.json";
 import { Link } from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import "./ShoppingBasket.css";
+//import "./ShoppingBasket.css";
+
+import "./pages.css"
 
 import Carousel from "../components/Carousel/Carousel";
 import {ItemProps} from "../interfaces/interfaces"
@@ -117,23 +119,19 @@ const Basket = () => {
  }
 
   return (
-    <>
-      <BasketItems
-        items={jsonData}
-        onItemCountChange={handleItemCountChange}
-        itemCounts={itemCount}
-        />
-       <button>
-        <Link to={`/checkout`}>Go to checkout </Link>
-      </button>
+      <div className="pageContainer">
+        <BasketItems
+          basketItems={basketItems}
+          setBasketItems={setBasketItems}
+          onItemCountChange={handleItemCountChange}
+          itemCount={itemCount}
+          />
+        <button>
+          <Link to={`/checkout`}>Go to checkout </Link>
+        </button>
 
-      <Carousel itemList={carouselItems} addToBasket={addToBasket}></Carousel>
-      </>
-
-        
-      
-      
-    
+        <Carousel itemList={carouselItems} addToBasket={addToBasket}></Carousel>
+      </div>
   );
 };
 

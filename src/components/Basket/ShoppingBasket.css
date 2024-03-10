@@ -7,45 +7,59 @@ body{
     color: black;
   }
 
-  .basket-container{
+  .basketContainer{
   width: 100%;
-  height: 70vh;
-  flex-direction: column;
   display: flex;
-  /*align-items: flex-start; 
-  justify-content: flex-start; */
-  align-items: center; 
-  justify-content: flex-start;
-  /*justify-content: space-between;*/
-  flex-direction: row; 
-  border: 1px solid lightgrey;
-  padding: 10px 10px 10px 0;
-  height: auto;
-  width: 100%;
-  margin-top: 0;
+  flex-direction: column;
   }
   
 
   .itemContainer {
     background-color: aliceblue;
     display: flex;
-    /*align-items: flex-start; 
-    justify-content: flex-start; */
     align-items: center; 
+    justify-content: space-between;
     flex-direction: row; 
+    gap: 1rem;
     border: 1px solid lightgrey;
-    padding: 10px 10px 10px 0;
+    padding: 0.5rem 1rem ;
     height: auto;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-
   }
 
- .image, .name, .price, .quantity, .total{
-    display: inline-flex; 
-    margin-top: 0;
+  .itemDetails {
+    width: 100%;
+  }
 
-    }
+  .topSection {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itemName {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .bottomSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .leftContainer {
+    width: 40%;
+  }
+
+  .rightContainer {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3rem;
+  }
+
+ 
 
     .itemInnerContainer {
       display: flex;
@@ -54,22 +68,31 @@ body{
 
     
     
-  }
+  
   
   .price{
-    background-color: blueviolet;
     position: relative;
     left: 50%;   
   }
   .name{
-    background-color: yellow;
     width: 90px;
     margin-top: 3%;
     margin-left:2%;
   }
+
+  .imageContainer {
+    width: 80px;
+    height: 100px;
+  }
+
+  .imageContainer .image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
   
 
-   .image, .name, .price, .quantity, .total{
+   .name, .price, .quantity, .total{
       display: inline-flex; 
       margin-top: 0;
       align-items: center;
@@ -87,12 +110,11 @@ body{
     }
 
     
-  }
+  
   .btn:hover{
       box-shadow: 0 2px 4px 0;
   }
   .btw{
-   background-color:yellow;
     margin-right: 3px;
     margin-left: 3px;
   }
@@ -144,39 +166,15 @@ body{
     padding: 0.625rem 0;
     
   }
- 
-  .div1, .div3, .div5, .div7{
-    width: 40px;
-    height: 20px;
-    position: relative;
-    left: 50px;
-    background-color: burlywood;
-  }
-  .div2, .div4, .div6 , .div8{
-    
-    width: 40px;
-    height: 20px;
-    position: relative;
-    left: 320px;
-  }
+
   
-  .div4{
-    color: red;
-  }
+  
   
   .counterButton{
     width: 120px;
-    margin-left: 20px;
-    position: relative;
-   left: 25px;
    bottom: 20%;
-   background-color: red;
     }
   .deleteIcon{
-    background-color:green;
-    position: relative;
-    left: 190px;
-    bottom: 20%;
     cursor: pointer;
   }
   .deleteIcon:hover{
@@ -189,6 +187,4 @@ body{
     height: 5px;
     margin-left: 5px;  
   }
-  .deleteBtn:hover{
-    color: red;
-   }
+  

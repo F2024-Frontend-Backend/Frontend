@@ -1,15 +1,15 @@
-import { Product } from "./ShoppingBasket";
+import { ItemProps } from "../../interfaces/interfaces";
 import basketUtilities from "./BasketUtilities";
 import { useState } from "react";
 import jsonData from "../../data.json";
 import "./ShoppingBasket.css";
 
-export const useBasketState = (intialProducts: Product[]) => {
+export const useBasketState = (basketItems: ItemProps[], setBasketItems: (value: ItemProps[]) => void) => {
   const { initializeItemCounts } = basketUtilities();
-  const [basketItems, setBasketItems] = useState<Product[]>(intialProducts);
+  //const [basketItems, setBasketItems] = useState<ItemProps[]>(intialProducts);
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
     () => {
-      return initializeItemCounts(jsonData.slice(0, 4));
+      return initializeItemCounts(basketItems);
     }
   );
   console.log("Initial itemCounts:", itemCounts);
@@ -26,6 +26,7 @@ export const useBasketState = (intialProducts: Product[]) => {
 
   const handleDelete = (itemId: string) => {
     console.log("Inside of handleDelete.");
+
     setBasketItems((prev) => prev.filter((item) => item.id !== itemId));
     setItemCounts((prev) => {
       const newState = { ...prev };

@@ -12,37 +12,24 @@ import { useBasketState } from "./useBasketState";
 import { ItemDetails, OrderItems } from "./BasketItem";
 
 
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  rabatQuantity: number;
-  rabatPercent: number;
-  imageUrl?: string;
-  //count?: number;
-}
+
 
 export interface BasketItemProps {
-  product: Product;
+  product: ItemProps;
   count: number;
   onItemCountChange: (itemId: string, newCount: number) => void;
   handleDelete: (itemId: string) => void;
 }
 
-export interface ItemsListProps {
-  items: Product[];
-  itemCounts: { [key: string]: number };
-  onItemCountChange: (itemId: string, newCount: number) => void;
-}
-
-const ItemComponent: React.FC<Product & BasketItemProps> = ({
+const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
   id,
   name,
   price,
   currency,
   imageUrl,
   count,
+  rebatePercent,
+  rebateQuantity,
   onItemCountChange,
   handleDelete,
 }) => {
@@ -59,46 +46,67 @@ const ItemComponent: React.FC<Product & BasketItemProps> = ({
   }, [count]);
 
   return (
-    <div className="item-container">
-      {imageUrl && <img className="image" src={imageUrl} alt={name} />}
-      <div className="item-details">
-        <ItemDetails
-          name={name}
-          price={price}
-          currency={currency}
-          count={count}
-          totalPrice={totalPrice}
-        />
-        <span className="counterButton">
-          <CounterButton
-            onCountChange={(newCount) => {
-              console.log(`Changing count for item ${id}`);
-              onItemCountChange(id, newCount);
-            }}
-            min={0}
-            max={6}
-          />
-        </span>
+    <div className="itemContainer">
+      <div className="imageContainer">
+        {imageUrl && <img className="image" src={imageUrl} alt={name} />}
+      </div>
+
+      <div className="itemDetails">
+        <div className="topSection">
+          <span className="itemName">{name}</span>
+          <span className="itemPrice">{price} {currency}</span>
+        </div>
+        
+
+        <div className="bottomSection">
+          <div className="leftContainer">
+            <Rebate rebatePercent={rebatePercent} rebateQuantity={rebateQuantity} count={count}></Rebate>
+          </div>
+          <div className="rightContainer">
+            <span className="counterButton">
+              <CounterButton
+                onCountChange={(newCount) => {
+                  console.log(`Changing count for item ${id}`);
+                  onItemCountChange(id, newCount);
+                }}
+                min={0}
+                max={6}
+              />
+            </span>
+
+            <span className="itemTotalPrice">{totalPrice} {currency}</span>
+          </div>
+          
+        </div>
+      </div>
+        
         <button onClick={() => handleDelete(id)} className="deleteIcon">
           x
         </button>
-        {count === 3 && showAlert && (
+        {/*count === 3 && showAlert && (
           <Alert severity="info" onClose={() => setShowAlert(false)}>
             Buy 3 and get one for free!
           </Alert>
-        )}
-      </div>
+        )*/}
+      
     </div>
   );
 };
 
 // ItemsList Component
-const BasketItems: React.FC<ItemsListProps> = ({}) => {
+const BasketItems: React.FC<ItemListProps> = ({
+  basketItems,
+  setBasketItems,
+  onItemCountChange,
+  itemCount,
+}) => {
   const { calculateDiscount, calculateSubtotal } = basketUtilities();
-  const { itemCounts, basketItems, handleItemCountChange, handleDelete } =
-    useBasketState(jsonData.slice(0, 4));
+  const { itemCounts, handleItemCountChange, handleDelete } =
+    useBasketState(basketItems, setBasketItems);
 
-  console.log(jsonData.slice(0, 4)); // Check the initial items to ensure they exist and are correctly formatted
+  //console.log(jsonData.slice(0, 4)); // Check the initial items to ensure they exist and are correctly formatted
+
+  console.log(basketItems.length + " , " + itemCounts)
 
   // Calculate subtotal
   const subtotal = calculateSubtotal(basketItems, itemCounts);
@@ -123,7 +131,7 @@ const BasketItems: React.FC<ItemsListProps> = ({}) => {
       {isEmpty ? (
         <Alert severity="info">Your basket is empty.</Alert>
       ) : (
-        <div className="basket-container">
+        <div className="basketContainer">
           {basketItems.map((item) => (
             <ItemComponent
               key={item.id}

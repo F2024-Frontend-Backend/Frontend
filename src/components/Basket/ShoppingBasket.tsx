@@ -106,7 +106,7 @@ const BasketItems: React.FC<ItemListProps> = ({
 
   //console.log(jsonData.slice(0, 4)); // Check the initial items to ensure they exist and are correctly formatted
 
-  console.log(basketItems.length + " , " + itemCounts)
+  console.log("items: " + basketItems.length + " , " + itemCounts)
 
   // Calculate subtotal
   const subtotal = calculateSubtotal(basketItems, itemCounts);
@@ -119,10 +119,12 @@ const BasketItems: React.FC<ItemListProps> = ({
 
   console.log(totalAfterDiscount);
   // Check if basket is empty
+  console.log("itemCounts: ", Object.values(itemCounts), "basket: ", basketItems)
+
   const isEmpty =
     Object.values(itemCounts).every((count) => count === 0) ||
     basketItems.length === 0;
-  console.log(isEmpty);
+  console.log("empty: " + isEmpty);
   console.log(" Before return Basket Items.");
   return (
     <>
@@ -136,9 +138,6 @@ const BasketItems: React.FC<ItemListProps> = ({
             <ItemComponent
               key={item.id}
               {...item}
-              count={itemCounts[item.id]}
-              onItemCountChange={handleItemCountChange}
-              handleDelete={handleDelete}
             />
           ))}
         </div>

@@ -16,7 +16,10 @@ describe(validateVAT.name, () => {
     const result = validateVAT("12345678");
     expect(result).toStrictEqual({ isValid: true, message: "Valid VAT: DanishVAT" });
   });
-
+  it("Recognize non-valid Danish VAT", () => {
+    const result = validateVAT("1234567")
+    expect(result).toStrictEqual({isValid: false, message: "Invalid Danish VAT. Danish VAT has 8 integers exactly."})
+  });
   it("Should validate and recognized non-Danish VAT.", () => {
     const result = validateVAT("23456789");
     expect(result).toStrictEqual({ isValid: true, message: "Valid VAT: Non-DanishVAT" });

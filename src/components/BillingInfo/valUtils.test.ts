@@ -1,9 +1,7 @@
 //import React from "react";
-import { render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import BillingInfo from "./BillingInfo"
+import {describe, expect, it} from "vitest";
 import { validateVAT } from "./vatUtils";
-import userEvent from "@testing-library/user-event";
+
 
 /*VAT NUMBERS AND FORM TEST*/ 
 describe(validateVAT.name, () => {

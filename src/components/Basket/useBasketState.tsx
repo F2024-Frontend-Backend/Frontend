@@ -4,13 +4,16 @@ import { useState } from "react";
 import jsonData from "../../data.json";
 import "./ShoppingBasket.css";
 
-export const useBasketState = (basketItems: ItemProps[], setBasketItems: (value: ItemProps[]) => void) => {
+export const useBasketState = (
+  basketItems: ItemProps[],
+  setBasketItems: (value: ItemProps[]) => void
+) => {
   const { initializeItemCounts } = basketUtilities();
   //const [basketItems, setBasketItems] = useState<ItemProps[]>(intialProducts);
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
     () => {
-      console.log("set initialItemCounts")
-      return initializeItemCounts(basketItems);
+      console.log("set initialItemCounts");
+      return initializeItemCounts(basketItems, 1);
     }
   );
   console.log("Initial itemCounts:", itemCounts);

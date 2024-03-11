@@ -137,18 +137,26 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
     "basket: ",
     basketItems
   );
-  {
-    /*
+
   const isEmpty =
     Object.values(itemCounts).every((count) => count === 0) ||
     basketItems.length === 0;
   console.log("empty: " + isEmpty);
-  console.log(" Before return Basket Items."); */
-  }
+  console.log(" Before return Basket Items.");
   return (
     <>
       <BaskedLabels />
-      <div className="basketContainer">
+      {isEmpty ? (
+        <Alert severity="info">Your basket is empty.</Alert>
+      ) : (
+        <div className="basketContainer">
+          {basketItems.map((item) => (
+            <ItemComponent key={item.id} {...item} />
+          ))}
+        </div>
+      )}
+
+      {/*<div className="basketContainer">
         {basketItems.map((item) => (
           <ItemComponent
             key={item.id}
@@ -158,17 +166,7 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
             handleDelete={handleDelete}
           />
         ))}
-      </div>
-
-      {/*{isEmpty ? (
-        <Alert severity="info">Your basket is empty.</Alert>
-      ) : (
-        <div className="basketContainer">
-          {basketItems.map((item) => (
-            <ItemComponent key={item.id} {...item} />
-          ))}
-        </div>
-      )} */}
+      </div> */}
 
       {/*
 const ItemsList: React.FC<ItemListProps> = ({

@@ -2,7 +2,7 @@ import { ItemProps } from "../../interfaces/interfaces";
 import "./ShoppingBasket.css";
 
 const basketUtilities = () => {
-  const initializeItemCounts = (items: ItemProps[], initialCount = 1) => {
+  const initializeItemCounts = (items: ItemProps[], initialCount: number) => {
     console.log("items in basketUtils: ", items);
     const initialCounts: { [key: string]: number } = {};
     items.forEach((item) => {

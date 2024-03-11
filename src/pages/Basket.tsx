@@ -114,7 +114,7 @@ const Basket = () => {
   }, [itemCount, basketItems]);
 
   return (
-    <div className="pageContainer">
+    <div className="baketPageContainer">
       <BasketItems
         basketItems={basketItems}
         setBasketItems={setBasketItems}

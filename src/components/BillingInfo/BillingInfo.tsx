@@ -128,7 +128,7 @@ const BillingInfo = () => {
   return (
     <form onSubmit={handleSubmit} className="billing-info-form">
       <div>
-        <label htmlFor="fname">First Name*:</label>
+        <label htmlFor="fname">First Name:</label> <br />
         <input
           type="text"
           id="fname"
@@ -140,7 +140,7 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="lname">Last Name*:</label>
+        <label htmlFor="lname">Last Name:</label> <br />
         <input
           type="text"
           id="lname"
@@ -152,7 +152,7 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="addressLine1">Address Line 1*:</label>
+        <label htmlFor="addressLine1">Address Line 1:</label> <br />
         <input
           type="text"
           id="addressLine1"
@@ -164,7 +164,7 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="addressLine2">Address Line 2 (Optional):</label>
+        <label htmlFor="addressLine2">Address Line 2 (Optional):</label> <br />
         <input
           type="text"
           id="addressLine2"
@@ -175,7 +175,7 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="post">Postal Code*:</label>
+        <label htmlFor="post">Postal Code:</label> <br />
         <input
           type="text"
           id="post"
@@ -188,12 +188,12 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="city">City:</label>
+        <label htmlFor="city">City:</label> <br />
         <input type="text" id="city" name="city" value={city} readOnly />
       </div>
 
       <div>
-        <label htmlFor="number">Phone Number*:</label>
+        <label htmlFor="number">Phone Number:</label> <br />
         <input
           type="text"
           id="number"
@@ -205,7 +205,7 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="email">Email*:</label>
+        <label htmlFor="email">Email:</label> <br />
         <input
           type="email"
           id="email"
@@ -230,7 +230,7 @@ const BillingInfo = () => {
       {isBillingDifferent && (
         <>
           <div>
-            <label htmlFor="deliveryFirstName">First Name:</label>
+            <label htmlFor="deliveryFirstName">First Name:</label> <br />
             <input
               type="text"
               id="deliveryFirstName"
@@ -242,7 +242,7 @@ const BillingInfo = () => {
           </div>
 
           <div>
-            <label htmlFor="deliveryLastName"> Last Name:</label>
+            <label htmlFor="deliveryLastName"> Last Name:</label> <br />
             <input
               type="text"
               id="deliveryLastName"
@@ -253,7 +253,7 @@ const BillingInfo = () => {
             />
           </div>
           <div>
-            <label htmlFor="deliveryAddressLine1">Address Line 1:</label>
+            <label htmlFor="deliveryAddressLine1">Address Line 1:</label> <br />
             <input
               type="text"
               id="deliveryAddressLine1"
@@ -267,7 +267,7 @@ const BillingInfo = () => {
           <div>
             <label htmlFor="deliveryAddressLine2">
               Address Line 2 (Optional):
-            </label>
+            </label> <br />
             <input
               type="text"
               id="deliveryAddressLine2"
@@ -279,7 +279,7 @@ const BillingInfo = () => {
           </div>
 
           <div>
-            <label htmlFor="deliveryPostal"> Postal Code:</label>
+            <label htmlFor="post"> Postal Code:</label> <br />
             <input
               type="text"
               id="deliveryPostal"
@@ -294,7 +294,7 @@ const BillingInfo = () => {
           </div>
 
           <div>
-            <label htmlFor="deliveryCity"> City:</label>
+            <label htmlFor="deliveryCity"> City:</label> <br />
             <input
               type="text"
               id="deliveryCity"

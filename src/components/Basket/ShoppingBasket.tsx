@@ -119,11 +119,6 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
   // Calculate subtotal
   const subtotal = calculateSubtotal(basketItems, itemCounts);
   console.log(subtotal);
-  useEffect(() => {
-    const newSubtotal = calculateSubtotal(basketItems, itemCounts);
-    //setSubtotal(newSubtotal); // Recalculate subtotal when itemCount or basketItems change
-  }, [itemCounts, basketItems]);
-
   // Calculate Discount
   const discount = calculateDiscount(subtotal);
   console.log(discount);

@@ -1,8 +1,8 @@
 import { ItemProps } from "../../interfaces/interfaces";
 import basketUtilities from "./BasketUtilities";
 import { useState } from "react";
-import jsonData from "../../data.json";
 import "./ShoppingBasket.css";
+import { useEffect } from "react";
 
 export const useBasketState = (
   basketItems: ItemProps[],
@@ -16,6 +16,12 @@ export const useBasketState = (
       return initializeItemCounts(basketItems, 1);
     }
   );
+  useEffect(() => {
+    console.log("Recalculating itemCounts due to basketItems change");
+    const updatedItemCounts = initializeItemCounts(basketItems, 1);
+    setItemCounts(updatedItemCounts);
+  }, [basketItems]);
+
   console.log("Initial itemCounts:", itemCounts);
   console.log("Initial basketItems:", basketItems);
 

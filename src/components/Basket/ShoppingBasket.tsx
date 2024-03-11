@@ -31,7 +31,9 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
   handleDelete,
 }) => {
   let totalPrice = price * count;
-
+  console.log(
+    `Rendering ItemComponent: ${name}, Price: ${price}, Count: ${count}, Total Price: ${totalPrice}`
+  );
   const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {

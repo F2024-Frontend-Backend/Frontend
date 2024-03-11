@@ -1,4 +1,3 @@
-import jsonData from "../../data.json";
 import React, { useState, useEffect } from "react";
 import "./ShoppingBasket.css";
 import CounterButton from "./CounterButton";
@@ -6,10 +5,9 @@ import { BaskedLabels } from "./BasketLabel";
 import Alert from "@mui/material/Alert";
 import Rebate from "../ItemRebate/ItemRebate";
 import { ItemProps, ItemListProps } from "../../interfaces/interfaces";
-
 import basketUtilities from "./BasketUtilities";
 import { useBasketState } from "./useBasketState";
-import { ItemDetails, OrderItems } from "./BasketItem";
+import { OrderItems } from "./BasketItem";
 
 export interface BasketItemProps {
   product: ItemProps;
@@ -101,18 +99,12 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
 const BasketItems: React.FC<ItemListProps & ItemProps> = ({
   basketItems,
   setBasketItems,
-  onItemCountChange,
-  itemCount,
 }) => {
-  //const [subtotal, setSubtotal] = useState<number>(0);
-
   const { calculateDiscount, calculateSubtotal } = basketUtilities();
   const { itemCounts, handleItemCountChange, handleDelete } = useBasketState(
     basketItems,
     setBasketItems
   );
-
-  //console.log(jsonData.slice(0, 4)); // Check the initial items to ensure they exist and are correctly formatted
 
   console.log("items: " + basketItems.length + " , " + itemCounts);
 
@@ -156,115 +148,6 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
           ))}
         </div>
       )}
-
-      {/*<div className="basketContainer">
-        {basketItems.map((item) => (
-          <ItemComponent
-            key={item.id}
-            {...item}
-            count={itemCounts[item.id] || 0}
-            onItemCountChange={handleItemCountChange}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </div> */}
-
-      {/*
-const ItemsList: React.FC<ItemListProps> = ({
-  basketItems,
-  setBasketItems,
-  onItemCountChange,
-  itemCounts,
-}) => {
-
-   const handleDelete = (itemId: string) => {
-    console.log("Delete is clicked!");
-    const newItems: ItemProps[] = basketItems.filter((item:ItemProps) => item.id !== itemId)
-    setBasketItems(newItems)
-  };
-
-   const Item: React.FC<ItemProps & ItemListProps> = ({
-    id,
-    name,
-    price,
-    currency,
-    rebatePercent,
-    rebateQuantity,
-    imageUrl,
-    onItemCountChange,
-    count,
-    upsellProductId,
-  }) => {
-
-    totalPrice = price * count;
-    return (
-      <>
-        <div className="itemContainer" key={id}>
-        {imageUrl && <img className="image" src={imageUrl} alt="" />}
-          <div className="itemInnerContainer">
-            
-            <span className="name box2">
-              <strong>{name}</strong>
-            </span>
-            
-            
-            <span className="price">
-              {price}
-              <span className="currency">{currency}</span>
-            </span>
-            <Rebate rebatePercent={rebatePercent} rebateQuantity={rebateQuantity} count={count}></Rebate>
-            
-            <span className="counterButton">
-              
-              <CounterButton
-                onCountChange={(newCount) => onItemCountChange(id, newCount)}
-                min={0}
-                max={5}
-              />
-            </span>
-          </div>
-          <span className="total box5">{totalPrice}</span>
-          <div className="deleteIcon">
-                {<DeleteIcon itemId={id} onClick={handleDelete} /> }
-                
-              </div>
-        </div>
-      </>
-    );
-  };
-
-  const subtotal = basketItems.reduce((total, item:ItemProps) => {
-    const itemCount = itemCounts[item.id] || 0;
-    return total + itemCount * item.price;
-  }, 0);
-  return (
-    <>
-      <div className="basketContainer">
-        <BaskedLabels />
-        {
-          basketItems.map((item:ItemProps) => (
-            <div key={item.id}>
-              <Item
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                currency={item.currency}
-                rebatePercent={item.rebatePercent}
-                rebateQuantity={item.rebateQuantity}
-                imageUrl={item.imageUrl}
-                count={itemCounts[item.id] || 0}
-                onItemCountChange={onItemCountChange}
-                upsellProductId={item.upsellProductId}
-                basketItems={basketItems}
-                setBasketItems={setBasketItems}
-                itemCounts={itemCounts}
-              />
-            </div>
-          ))
-
-        }
-      </div>
-      */}
 
       <div className="subTotal">
         <OrderItems

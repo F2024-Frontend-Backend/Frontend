@@ -1,17 +1,9 @@
 import BasketItems from "../components/Basket/ShoppingBasket";
 import { useEffect, useState } from "react";
-
-import jsonData from "../data.json";
 import { Link } from "react-router-dom";
-import Alert from "@mui/material/Alert";
-
-//import "./ShoppingBasket.css";
-
 import "./pages.css";
-
 import Carousel from "../components/Carousel/Carousel";
 import { ItemProps } from "../interfaces/interfaces";
-import { useBasketState } from "../components/Basket/useBasketState";
 import basketUtilities from "../components/Basket/BasketUtilities";
 
 // Fetch Items from file
@@ -37,7 +29,7 @@ const Basket = () => {
     setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
   };
 
-  const [emptyBasket, setBasketEmpty] = useState(false);
+  //const [emptyBasket, setBasketEmpty] = useState(false);
   const [allItems, setAllItems] = useState<ItemProps[]>([]);
   const [basketItems, setBasketItems] = useState<ItemProps[]>([]);
   const [carouselItems, setCarouselItems] = useState<ItemProps[]>([]);
@@ -118,7 +110,7 @@ const Basket = () => {
 
   useEffect(() => {
     const newSubtotal = calculateSubtotal(basketItems, itemCount);
-    setSubtotal(newSubtotal); // Recalculate subtotal when itemCount or basketItems change
+    setSubtotal(newSubtotal); // Recalculate subtotal
   }, [itemCount, basketItems]);
 
   return (

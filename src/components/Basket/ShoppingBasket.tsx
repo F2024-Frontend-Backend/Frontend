@@ -11,9 +11,6 @@ import basketUtilities from "./BasketUtilities";
 import { useBasketState } from "./useBasketState";
 import { ItemDetails, OrderItems } from "./BasketItem";
 
-
-
-
 export interface BasketItemProps {
   product: ItemProps;
   count: number;
@@ -54,13 +51,18 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
       <div className="itemDetails">
         <div className="topSection">
           <span className="itemName">{name}</span>
-          <span className="itemPrice">{price} {currency}</span>
+          <span className="itemPrice">
+            {price} {currency}
+          </span>
         </div>
-        
 
         <div className="bottomSection">
           <div className="leftContainer">
-            <Rebate rebatePercent={rebatePercent} rebateQuantity={rebateQuantity} count={count}></Rebate>
+            <Rebate
+              rebatePercent={rebatePercent}
+              rebateQuantity={rebateQuantity}
+              count={count}
+            ></Rebate>
           </div>
           <div className="rightContainer">
             <span className="counterButton">
@@ -74,21 +76,21 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
               />
             </span>
 
-            <span className="itemTotalPrice">{totalPrice} {currency}</span>
+            <span className="itemTotalPrice">
+              {totalPrice} {currency}
+            </span>
           </div>
-          
         </div>
       </div>
-        
-        <button onClick={() => handleDelete(id)} className="deleteIcon">
-          x
-        </button>
-        {/*count === 3 && showAlert && (
+
+      <button onClick={() => handleDelete(id)} className="deleteIcon">
+        x
+      </button>
+      {/*count === 3 && showAlert && (
           <Alert severity="info" onClose={() => setShowAlert(false)}>
             Buy 3 and get one for free!
           </Alert>
         )*/}
-      
     </div>
   );
 };
@@ -101,12 +103,14 @@ const BasketItems: React.FC<ItemListProps> = ({
   itemCount,
 }) => {
   const { calculateDiscount, calculateSubtotal } = basketUtilities();
-  const { itemCounts, handleItemCountChange, handleDelete } =
-    useBasketState(basketItems, setBasketItems);
+  const { itemCounts, handleItemCountChange, handleDelete } = useBasketState(
+    basketItems,
+    setBasketItems
+  );
 
   //console.log(jsonData.slice(0, 4)); // Check the initial items to ensure they exist and are correctly formatted
 
-  console.log("items: " + basketItems.length + " , " + itemCounts)
+  console.log("items: " + basketItems.length + " , " + itemCounts);
 
   // Calculate subtotal
   const subtotal = calculateSubtotal(basketItems, itemCounts);
@@ -119,29 +123,44 @@ const BasketItems: React.FC<ItemListProps> = ({
 
   console.log(totalAfterDiscount);
   // Check if basket is empty
-  console.log("itemCounts: ", Object.values(itemCounts), "basket: ", basketItems)
-
+  console.log(
+    "itemCounts: ",
+    Object.values(itemCounts),
+    "basket: ",
+    basketItems
+  );
+  {
+    /*
   const isEmpty =
     Object.values(itemCounts).every((count) => count === 0) ||
     basketItems.length === 0;
   console.log("empty: " + isEmpty);
-  console.log(" Before return Basket Items.");
+  console.log(" Before return Basket Items."); */
+  }
   return (
     <>
       <BaskedLabels />
+      <div className="basketContainer">
+        {basketItems.map((item) => (
+          <ItemComponent
+            key={item.id}
+            {...item}
+            count={itemCounts[item.id] || 0}
+            onItemCountChange={handleItemCountChange}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </div>
 
-      {isEmpty ? (
+      {/*{isEmpty ? (
         <Alert severity="info">Your basket is empty.</Alert>
       ) : (
         <div className="basketContainer">
           {basketItems.map((item) => (
-            <ItemComponent
-              key={item.id}
-              {...item}
-            />
+            <ItemComponent key={item.id} {...item} />
           ))}
         </div>
-      )}
+      )} */}
 
       {/*
 const ItemsList: React.FC<ItemListProps> = ({
@@ -247,11 +266,8 @@ const ItemsList: React.FC<ItemListProps> = ({
           totalAfterDiscount={totalAfterDiscount}
         />
       </div>
-        
     </>
   );
 };
 
-
 export default BasketItems;
-

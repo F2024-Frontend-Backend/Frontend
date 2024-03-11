@@ -3,7 +3,7 @@ import "./ShoppingBasket.css";
 
 const basketUtilities = () => {
   const initializeItemCounts = (items: ItemProps[], initialCount = 1) => {
-    console.log("items in basketUtils: ", items)
+    console.log("items in basketUtils: ", items);
     const initialCounts: { [key: string]: number } = {};
     items.forEach((item) => {
       initialCounts[item.id] = initialCount;
@@ -18,8 +18,8 @@ const basketUtilities = () => {
   ): number => {
     return items.reduce((total, item) => {
       const itemCount = itemCounts[item.id] || 0;
-      const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
-      return total + item.price * effectiveCount;
+      //const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
+      return total + item.price /* * effectiveCount*/;
     }, 0);
   };
 

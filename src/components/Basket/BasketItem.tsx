@@ -1,5 +1,4 @@
 import React from "react";
-import "./ShoppingBasket.css";
 
 type ItemDetailsProps = {
   name: string;

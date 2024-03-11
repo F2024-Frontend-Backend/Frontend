@@ -2,7 +2,6 @@ import { Product } from "./ShoppingBasket";
 import basketUtilities from "./BasketUtilities";
 import { useState } from "react";
 import jsonData from "../../data.json";
-import "./ShoppingBasket.css";
 
 export const useBasketState = (intialProducts: Product[]) => {
   const { initializeItemCounts } = basketUtilities();

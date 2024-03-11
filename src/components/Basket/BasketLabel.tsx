@@ -1,4 +1,3 @@
-import "./ShoppingBasket.css";
 export const BaskedLabels = () => {
   return (
     <div className="basket-labels">

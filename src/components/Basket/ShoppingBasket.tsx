@@ -1,6 +1,6 @@
 import jsonData from "../../data.json";
 import React, { useState, useEffect } from "react";
-import "./ShoppingBasket.css";
+
 import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
 import Alert from "@mui/material/Alert";
@@ -10,7 +10,6 @@ import { ItemProps, ItemListProps } from "../../interfaces/interfaces";
 import basketUtilities from "./BasketUtilities";
 import { useBasketState } from "./useBasketState";
 import { ItemDetails, OrderItems } from "./BasketItem";
-
 
 export interface Product {
   id: string;
@@ -240,11 +239,8 @@ const ItemsList: React.FC<ItemListProps> = ({
           totalAfterDiscount={totalAfterDiscount}
         />
       </div>
-        
     </>
   );
 };
 
-
 export default BasketItems;
-

@@ -1,14 +1,13 @@
 import { Product } from "./ShoppingBasket";
-import "./ShoppingBasket.css";
 
 const basketUtilities = () => {
   const initializeItemCounts = (items: Product[], initialCount = 1) => {
-    const initialCounts: { [key: string]: number } = {};
+    const initialProducts: { [key: string]: number } = {};
     items.forEach((item) => {
-      initialCounts[item.id] = initialCount;
+      initialProducts[item.id] = initialCount;
     });
 
-    return initialCounts;
+    return initialProducts;
   };
 
   const calculateSubtotal = (

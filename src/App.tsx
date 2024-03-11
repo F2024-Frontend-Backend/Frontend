@@ -1,7 +1,6 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 
 import "./App.css";
-import "./components/Basket/ShoppingBasket.css";
 import Basket from "./pages/Basket";
 import Checkout from "./pages/Checkout";
 import Receipt from "./pages/Receipt";

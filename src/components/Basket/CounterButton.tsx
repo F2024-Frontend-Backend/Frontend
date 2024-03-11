@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./ShoppingBasket.css";
 
 interface CounterButton {
   min?: number;

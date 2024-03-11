@@ -11,6 +11,7 @@ const BillingInfo = () => {
   const [city, setCity] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
+
   /**
    * Halah
    */
@@ -48,8 +49,8 @@ const BillingInfo = () => {
     /**
      * Halah 
      */
-
-    const inputValue = event.target.value;
+    // Validate phone number for Denmark (8 digits)
+     const inputValue = event.target.value;
     const isValidNumber = /^\d{8}$/.test(inputValue);
 
     setIsPhoneNumberValid(isValidNumber || inputValue === "");
@@ -69,6 +70,7 @@ const BillingInfo = () => {
      * Halah 
      */
 
+    // Validate email address
     const inputValue1 = event.target.value;
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputValue1);
     
@@ -148,6 +150,8 @@ const BillingInfo = () => {
         name="number"
         value={number}
         onChange={handleNumberChange}
+        
+        // From Halah
         className={isPhoneNumberValid ? "": "invalid"}
       />
       {!isPhoneNumberValid && <p className="error-message">{phoneNumberError}</p>}
@@ -160,10 +164,12 @@ const BillingInfo = () => {
         name="email"
         value={email}
         onChange={handleEmailChange}
-        className={isEmailValid ? "" : "invalid"}
 
+        // From Halah 
+        className={isEmailValid ? "" : "invalid"}
         
-      />
+        
+        />
       {!isEmailValid && <p className="error-message">{emailError}</p>}
 
       <button type="submit">Submit</button>

@@ -18,8 +18,8 @@ const basketUtilities = () => {
   ): number => {
     return items.reduce((total, item) => {
       const itemCount = itemCounts[item.id] || 0;
-      //const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
-      return total + item.price /* * effectiveCount*/;
+      const effectiveCount = itemCount > 2 ? itemCount - 1 : itemCount;
+      return total + item.price * effectiveCount;
     }, 0);
   };
 

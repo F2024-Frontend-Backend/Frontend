@@ -1,32 +1,31 @@
 interface ItemProps {
-    id: string;
-    name: string;
-    price: number;
-    currency: string;
-    rebateQuantity: number;
-    rebatePercent: number;
-    imageUrl?: string;
-    count: number;
-    upsellProductId: string;
-  }
+  id: string;
+  name: string;
+  price: number;
+  currency: string;
+  rebateQuantity: number;
+  rebatePercent: number;
+  imageUrl?: string;
+  count: number;
+  upsellProductId: string;
+}
 
-  interface ItemListProps {
-    basketItems: ItemProps[];
-    setBasketItems: (value: ItemProps[]) => void;
-    itemCount: { [key: string]: number };
-    onItemCountChange: (itemId: string, newCount: number) => void;
-  }
+interface ItemListProps {
+  basketItems: ItemProps[];
+  setBasketItems: (value: ItemProps[]) => void;
+  itemCount: { [key: string]: number };
+  onItemCountChange: (itemId: string, newCount: number) => void;
+}
 
+interface CarouselItemProps {
+  carouselID: string;
+  id: string;
+  name: string;
+  price: number;
+  currency: string;
+  imageUrl?: string;
+  currentCarrousel: number[];
+  addToBasket: (id: string) => void;
+}
 
-  interface CarouselItemProps {
-    carouselID: string;  
-    id: string;
-    name: string;
-    price: number;
-    currency: string;
-    imageUrl?: string;
-    currentCarrousel: number[];
-    addToBasket: (id : string) => void;
-  }
-
-  export type {ItemProps, ItemListProps, CarouselItemProps}
+export type { ItemProps, ItemListProps, CarouselItemProps };

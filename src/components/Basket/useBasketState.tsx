@@ -9,6 +9,7 @@ export const useBasketState = (basketItems: ItemProps[], setBasketItems: (value:
   //const [basketItems, setBasketItems] = useState<ItemProps[]>(intialProducts);
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
     () => {
+      console.log("set initialItemCounts")
       return initializeItemCounts(basketItems);
     }
   );

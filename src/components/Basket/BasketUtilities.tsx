@@ -3,6 +3,7 @@ import "./ShoppingBasket.css";
 
 const basketUtilities = () => {
   const initializeItemCounts = (items: ItemProps[], initialCount = 1) => {
+    console.log("items in basketUtils: ", items)
     const initialCounts: { [key: string]: number } = {};
     items.forEach((item) => {
       initialCounts[item.id] = initialCount;

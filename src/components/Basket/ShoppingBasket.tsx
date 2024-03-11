@@ -69,7 +69,7 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
           <div className="rightContainer">
             <span className="counterButton">
               <CounterButton
-                onCountChange={(newCount) => {
+                onCountChange={(newCount: number) => {
                   console.log(`Changing count for item ${id}`);
                   onItemCountChange(id, newCount);
                 }}
@@ -120,9 +120,9 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
   const subtotal = calculateSubtotal(basketItems, itemCounts);
   console.log(subtotal);
   useEffect(() => {
-    const newSubtotal = calculateSubtotal(basketItems, itemCount);
+    const newSubtotal = calculateSubtotal(basketItems, itemCounts);
     //setSubtotal(newSubtotal); // Recalculate subtotal when itemCount or basketItems change
-  }, [itemCount, basketItems]);
+  }, [itemCounts, basketItems]);
 
   // Calculate Discount
   const discount = calculateDiscount(subtotal);
@@ -151,7 +151,13 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
       ) : (
         <div className="basketContainer">
           {basketItems.map((item) => (
-            <ItemComponent key={item.id} {...item} />
+            <ItemComponent
+              key={item.id}
+              {...item}
+              count={itemCounts[item.id] || 0}
+              onItemCountChange={handleItemCountChange}
+              handleDelete={handleDelete}
+            />
           ))}
         </div>
       )}

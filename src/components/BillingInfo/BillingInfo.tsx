@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import postalCodes from "./postalCode.json"; // Make sure this path is correct for your project structure
 import "./BillingInfo.css";
+import "./vatUtils.ts"
+import { validateVAT } from "./vatUtils.ts";
 
 const BillingInfo = () => {
   const [firstName, setFirstName] = useState("");
@@ -21,6 +23,9 @@ const BillingInfo = () => {
   const [deliveryCity, setDeliveryCity] = useState("");
   const [postalError, setPostalError] = useState("");
   const [deliveryPostalError, setDeliveryPostalError] = useState("");
+  const [companyName, setCompany] = useState("");
+  const [companyVAT, setVAT] = useState("");
+  const [vatErrors, setVatErrors] = useState("");
 
   const findCityByPostalCode = (postalCode: string) => {
     const entry = postalCodes.find((item) => item.nr === postalCode);
@@ -69,6 +74,36 @@ const BillingInfo = () => {
     }
   };
 
+  const handleCompanyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCompany(event.target.value);
+  };
+
+  const handleVATChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const vat = event.target.value;
+    setVAT(vat);
+    const valVat = validateVAT(vat);
+    if(!valVat.isValid){
+      setVatErrors(valVat.message);
+    }
+    else{
+      setVatErrors("");
+    }
+  };
+
+  const checkIfCompNamePresent = (): boolean => {
+    if(companyName === ""){
+      return false
+    }
+    return true;
+  };
+
+  const checkIfVATPresent = (): boolean => {
+    if(companyVAT === ""){
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Form Submission:", {
@@ -82,41 +117,48 @@ const BillingInfo = () => {
       email,
       deliveryPostal: isBillingDifferent ? deliveryPostal : null,
       deliveryCity: isBillingDifferent ? deliveryCity : null,
+      companyName,
+      companyVAT,
     });
     // Add logic here to process form submission, such as sending data to a backend server
   };
 
+
+
   return (
     <form onSubmit={handleSubmit} className="billing-info-form">
       <div>
-        <label htmlFor="fname">First Name:</label>
+        <label htmlFor="fname">First Name*:</label>
         <input
           type="text"
           id="fname"
           name="fname"
           value={firstName}
+          required
           onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="lname">Last Name:</label>
+        <label htmlFor="lname">Last Name*:</label>
         <input
           type="text"
           id="lname"
           name="lname"
           value={lastName}
+          required
           onChange={(e) => setLastName(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="addressLine1">Address Line 1:</label>
+        <label htmlFor="addressLine1">Address Line 1*:</label>
         <input
           type="text"
           id="addressLine1"
           name="addressLine1"
           value={addressLine1}
+          required
           onChange={(e) => setAddressLine1(e.target.value)}
         />
       </div>
@@ -133,11 +175,12 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="post">Postal Code:</label>
+        <label htmlFor="post">Postal Code*:</label>
         <input
           type="text"
           id="post"
           name="post"
+          required
           value={postal}
           onChange={handlePostalChange}
         />
@@ -150,22 +193,24 @@ const BillingInfo = () => {
       </div>
 
       <div>
-        <label htmlFor="number">Phone Number:</label>
+        <label htmlFor="number">Phone Number*:</label>
         <input
           type="text"
           id="number"
           name="number"
+          required
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Email*:</label>
         <input
           type="email"
           id="email"
           name="email"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -190,6 +235,7 @@ const BillingInfo = () => {
               type="text"
               id="deliveryFirstName"
               name="deliveryFirstName"
+              required = {isBillingDifferent}
               value={deliveryFirstName}
               onChange={(e) => setDeliveryFirstName(e.target.value)}
             />
@@ -200,6 +246,7 @@ const BillingInfo = () => {
             <input
               type="text"
               id="deliveryLastName"
+              required = {isBillingDifferent}
               name="deliveryLastName"
               value={deliveryLastName}
               onChange={(e) => setDeliveryLastName(e.target.value)}
@@ -210,6 +257,7 @@ const BillingInfo = () => {
             <input
               type="text"
               id="deliveryAddressLine1"
+              required = {isBillingDifferent}
               name="deliveryAddressLine1"
               value={deliveryAddressLine1}
               onChange={(e) => setDeliveryAddressLine1(e.target.value)}
@@ -223,6 +271,7 @@ const BillingInfo = () => {
             <input
               type="text"
               id="deliveryAddressLine2"
+              required = {isBillingDifferent}
               name="deliveryAddressLine2"
               value={deliveryAddressLine2}
               onChange={(e) => setDeliveryAddressLine2(e.target.value)}
@@ -235,6 +284,7 @@ const BillingInfo = () => {
               type="text"
               id="deliveryPostal"
               name="deliveryPostal"
+              required = {isBillingDifferent}
               value={deliveryPostal}
               onChange={handleDeliveryPostalChange}
             />
@@ -249,13 +299,39 @@ const BillingInfo = () => {
               type="text"
               id="deliveryCity"
               name="deliveryCity"
+              required = {isBillingDifferent}
               value={deliveryCity}
               readOnly
             />
           </div>
         </>
       )}
-
+         <div>
+         <label htmlFor="companyName">Company Name:</label> <br/>
+       <input
+          type="text"
+          id="companyName"
+          name="companyName"
+          value={companyName}
+          required = {checkIfVATPresent()}
+          onChange={handleCompanyChange}
+        />
+      </div>
+        <div>
+        <label htmlFor="companyVAT">Company VAT:</label> <br/>
+       <input
+         type="numeric"
+          inputMode="numeric"
+          id="companyVAT"
+          name="companyVAT"
+          value={companyVAT}
+          required = {checkIfCompNamePresent()}
+          pattern = "((1[0-9]{7})|((0|[2-9])[0-9]*))"
+          //not sure if we are allowed to just use the pattern then give it a regex. This should work for now, but I think it would be a bit complex later.
+          onChange={handleVATChange}
+      />
+      {vatErrors && <div className="error-message">{vatErrors}</div>}
+       </div>
       <button type="submit">Submit</button>
     </form>
   );

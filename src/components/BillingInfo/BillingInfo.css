@@ -1,14 +1,19 @@
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-    color: black;
-    text-align: left;
+  color: black;
+  text-align: left;
 }
 
 input {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
+  margin-bottom: 10px;
+}
+.error-message {
+  color: red; /* Red is commonly used for errors */
+  margin-bottom: 10px; /* Space below the error message */
 }

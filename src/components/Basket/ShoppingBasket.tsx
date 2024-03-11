@@ -1,182 +1,163 @@
-import jsonData from "../../data.json";
+import React, { useState, useEffect } from "react";
 import "./ShoppingBasket.css";
 import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
-import { ImBin } from "react-icons/im";
-import DeleteIcon from "../Basket/DeleteIcon";
-import { useState, useEffect } from "react";
+import Alert from "@mui/material/Alert";
+import Rebate from "../ItemRebate/ItemRebate";
+import { ItemProps, ItemListProps } from "../../interfaces/interfaces";
+import basketUtilities from "./BasketUtilities";
+import { useBasketState } from "./useBasketState";
+import { OrderItems } from "./BasketItem";
 
-let totalPrice: number;
-let shoppingItems: number;
-shoppingItems = 4;
-
-
-
-  // Fetch Items from file
-  const getItems = async (filePath: RequestInfo, fileType: String) => {
-    try{ 
-      const response = await fetch(filePath);
-      switch (fileType.toUpperCase()) {
-          case 'JSON':
-             return response.json();
-          default:
-             return response;
-             
-      }
-  } catch (error) {
-      return error;
-  }
-  }
-
-interface Props {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  rabatQuantity: number;
-  rabatPercent: number;
-  imageUrl?: string;
+export interface BasketItemProps {
+  product: ItemProps;
   count: number;
-}
-
-interface itemProps {
-  items: typeof jsonData; // An array of items
-  itemCounts: { [key: string]: number };
   onItemCountChange: (itemId: string, newCount: number) => void;
+  handleDelete: (itemId: string) => void;
 }
 
-/**
- * TODO
- */
-
-
-
-
-const ItemsList: React.FC<itemProps> = ({
-  items,
+const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
+  id,
+  name,
+  price,
+  currency,
+  imageUrl,
+  count,
+  rebatePercent,
+  rebateQuantity,
   onItemCountChange,
-  itemCounts,
+  handleDelete,
 }) => {
-
-  const [basketItems, setBasketItems] = useState([])
+  let totalPrice = price * count;
+  console.log(
+    `Rendering ItemComponent: ${name}, Price: ${price}, Count: ${count}, Total Price: ${totalPrice}`
+  );
+  const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
-    fetchItems();
-    }, [])
+    if (count === 3) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [count]);
 
-    const fetchItems = async () => {
-      try {
-        const response = await getItems('src/data.json', 'json');
-        setBasketItems(response);
-        console.log(response)
-      } catch (error) {
-        console.error(error);
-      }
-   };
+  return (
+    <div className="itemContainer">
+      <div className="imageContainer">
+        {imageUrl && <img className="image" src={imageUrl} alt={name} />}
+      </div>
 
-   const handleDelete = (itemId: string) => {
-    console.log("Delete is clicked!");
-    const newItems = basketItems.filter((item:Props) => item.id !== itemId)
-    setBasketItems(newItems)
-  };
+      <div className="itemDetails">
+        <div className="topSection">
+          <span className="itemName">{name}</span>
+          <span className="itemPrice">
+            {price} {currency}
+          </span>
+        </div>
 
-   const Item: React.FC<Props & itemProps> = ({
-    id,
-    name,
-    price,
-    currency,
-    imageUrl,
-    onItemCountChange,
-    count,
-  }) => {
-    totalPrice = price * count;
-    return (
-      <>
-        <div className="item-container" key={id}>
-          <div>
-            {imageUrl && <img className="image" src={imageUrl} alt="" />}
-            <span className="name box2">
-              <strong>{name}</strong>
-            </span>
-            <span></span>
-            <span className="price">
-              {price}
-              <span className="currency">{currency}</span>
-            </span>
-            <span className="quantity box4">{count}</span>
-            <span className="total box5">{totalPrice}</span>
+        <div className="bottomSection">
+          <div className="leftContainer">
+            <Rebate
+              rebatePercent={rebatePercent}
+              rebateQuantity={rebateQuantity}
+              count={count}
+            ></Rebate>
+          </div>
+          <div className="rightContainer">
             <span className="counterButton">
               <CounterButton
-                onCountChange={(newCount) => onItemCountChange(id, newCount)}
+                onCountChange={(newCount: number) => {
+                  console.log(`Changing count for item ${id}`);
+                  onItemCountChange(id, newCount);
+                }}
                 min={0}
-                max={5}
+                max={6}
               />
-              <div className="deleteIcon">
-                {<DeleteIcon itemId={id} onClick={handleDelete} /> }
-                <ImBin />
-              </div>
+            </span>
+
+            <span className="itemTotalPrice">
+              {totalPrice} {currency}
             </span>
           </div>
         </div>
-      </>
-    );
-  };
+      </div>
 
-  const subtotal = items.slice(0, shoppingItems).reduce((total, item) => {
-    const itemCount = itemCounts[item.id] || 0;
-    return total + itemCount * item.price;
-  }, 0);
+      <button onClick={() => handleDelete(id)} className="deleteIcon">
+        x
+      </button>
+      {/*count === 3 && showAlert && (
+          <Alert severity="info" onClose={() => setShowAlert(false)}>
+            Buy 3 and get one for free!
+          </Alert>
+        )*/}
+    </div>
+  );
+};
+
+// ItemsList Component
+const BasketItems: React.FC<ItemListProps & ItemProps> = ({
+  basketItems,
+  setBasketItems,
+}) => {
+  const { calculateDiscount, calculateSubtotal } = basketUtilities();
+  const { itemCounts, handleItemCountChange, handleDelete } = useBasketState(
+    basketItems,
+    setBasketItems
+  );
+
+  console.log("items: " + basketItems.length + " , " + itemCounts);
+
+  // Calculate subtotal
+  const subtotal = calculateSubtotal(basketItems, itemCounts);
+  console.log(subtotal);
+  // Calculate Discount
+  const discount = calculateDiscount(subtotal);
+  console.log(discount);
+  const totalAfterDiscount = subtotal - discount;
+
+  console.log(totalAfterDiscount);
+  // Check if basket is empty
+  console.log(
+    "itemCounts: ",
+    Object.values(itemCounts),
+    "basket: ",
+    basketItems
+  );
+
+  const isEmpty =
+    Object.values(itemCounts).every((count) => count === 0) ||
+    basketItems.length === 0;
+  console.log("empty: " + isEmpty);
+  console.log(" Before return Basket Items.");
   return (
     <>
-      <div className="basket-container">
-        <BaskedLabels />
-        {
-          basketItems.map((item:Props) => (
-            <div key={item.id}>
-              <Item
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                currency={item.currency}
-                rabatPercent={item.rabatPercent}
-                rabatQuantity={item.rabatQuantity}
-                imageUrl={item.imageUrl}
-                count={itemCounts[item.id] || 0}
-                onItemCountChange={onItemCountChange}
-                items={items}
-                itemCounts={itemCounts}
-              />
-            </div>
-          ))
+      <BaskedLabels />
+      {isEmpty ? (
+        <Alert severity="info">Your basket is empty.</Alert>
+      ) : (
+        <div className="basketContainer">
+          {basketItems.map((item) => (
+            <ItemComponent
+              key={item.id}
+              {...item}
+              count={itemCounts[item.id] || 0}
+              onItemCountChange={handleItemCountChange}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
 
-        }
-      </div>
       <div className="subTotal">
-        <p className="div1">
-          <strong>Subtotal</strong>
-          <span className="div2">{subtotal}</span>
-        </p>
-
-        <p className="div3">
-          Discount
-          <span className="div4"></span>
-        </p>
-        <p className="div5">
-          Shipping
-          <span className="div6">-</span>
-        </p>
-      </div>
-      <div>
-        <p className="div7">
-          <strong>Total</strong>
-          <span className="div8">
-            <strong>{subtotal}</strong>
-          </span>
-        </p>
+        <OrderItems
+          subtotal={subtotal}
+          discount={discount}
+          totalAfterDiscount={totalAfterDiscount}
+        />
       </div>
     </>
   );
 };
 
-
-export default ItemsList;
+export default BasketItems;

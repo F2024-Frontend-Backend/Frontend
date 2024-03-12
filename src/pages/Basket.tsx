@@ -5,6 +5,8 @@ import "./pages.css";
 import Carousel from "../components/Carousel/Carousel";
 import { ItemProps } from "../interfaces/interfaces";
 import basketUtilities from "../components/Basket/BasketUtilities";
+import axios from "axios";
+import { error } from "console";
 
 // Fetch Items from file
 const getItems = async (filePath: RequestInfo, fileType: String) => {

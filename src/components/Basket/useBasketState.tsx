@@ -19,7 +19,7 @@ export const useBasketState = (
     console.log("Recalculating itemCounts due to basketItems change");
     const updatedItemCounts = initializeItemCounts(basketItems, 1);
     setItemCounts(updatedItemCounts);
-  }, [basketItems]);
+  }, [basketItems]); // The effect depends on basketItems, dependencies array, effect rerun everytime this value changes
 
   console.log("Initial itemCounts:", itemCounts);
   console.log("Initial basketItems:", basketItems);

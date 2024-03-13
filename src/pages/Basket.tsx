@@ -7,21 +7,7 @@ import { ItemProps } from "../interfaces/interfaces";
 import basketUtilities from "../components/Basket/BasketUtilities";
 import axios from "axios";
 import { error } from "console";
-
-// Fetch Items from file
-const getItems = async (filePath: RequestInfo, fileType: String) => {
-  try {
-    const response = await fetch(filePath);
-    switch (fileType.toUpperCase()) {
-      case "JSON":
-        return response.json();
-      default:
-        return response;
-    }
-  } catch (error) {
-    return error;
-  }
-};
+import { fetchProducts } from "../api/FetchDataFromDjangoApi";
 
 const Basket = () => {
   const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
@@ -32,50 +18,25 @@ const Basket = () => {
   };
 
   //const [emptyBasket, setBasketEmpty] = useState(false);
-  const [allItems, setAllItems] = useState<ItemProps[]>([]);
+  //const [allItems, setAllItems] = useState<ItemProps[]>([]);
   const [basketItems, setBasketItems] = useState<ItemProps[]>([]);
   const [carouselItems, setCarouselItems] = useState<ItemProps[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const { calculateSubtotal } = basketUtilities();
 
   useEffect(() => {
-    fetchItems();
+    const fetchAndSetProducts = async () => {
+      try {
+        const products = await fetchProducts();
+        setBasketItems(products.slice(0, 5));
+        generateCarouselItems(products, products.slice(0, 5));
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      }
+    };
+
+    fetchAndSetProducts();
   }, []);
-
-  const fetchItems = async () => {
-    try {
-      const response = await getItems("src/data.json", "json");
-      setAllItems(response);
-      setBasketItems(response.slice(0, 5));
-      console.log(response);
-      generateCarouselItems(response, response.slice(0, 5));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  {
-    /**  const checkIfBasketIsEmpty = () => {
-    const isEmpty =
-      Object.keys(itemCount).length === 0 ||
-      Object.values(itemCount).every((count) => count === 0);
-    setBasketEmpty(isEmpty);
-  };
-  const [showAlert, setShowAlert] = useState(true);
-
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-  }, [itemCount]);
- // Debugging
-  console.log("I am before return in Basket");
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-    console.log(`emptyBasket: ${emptyBasket}, showAlert: ${showAlert}`);
-  }, [itemCount, emptyBasket, showAlert]);
- */
-  }
 
   const generateCarouselItems = (allItems: any, basketItems: any) => {
     let newCarousel: any = [];

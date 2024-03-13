@@ -6,7 +6,7 @@ import Basket from "./pages/Basket";
 import Checkout from "./pages/Checkout/Checkout";
 import Receipt from "./pages/Receipt";
 import OrderReceived from "./components/OrderReceived/order_received";
-import FetchDataApi from "./api/fetchDataFromApi";
+import FetchDataApi from "./api/FetchDataFromDjangoApi";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
         <Routes>
           <Route path="receipt" element={<OrderReceived />} />
           <Route path="checkout" element={<Checkout />} />
-          {/**<Route path="" element={<Basket />} /> */}
-          <Route path="" element={<FetchDataApi />} />
+          {/**<Route path="" element={<FetchDataApi />} /> */}
+          <Route path="" element={<Basket />} />
         </Routes>
       </BrowserRouter>
     </>

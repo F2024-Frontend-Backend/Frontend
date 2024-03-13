@@ -5,7 +5,7 @@ import "./pages.css";
 import Carousel from "../components/Carousel/Carousel";
 import { ItemProps } from "../interfaces/interfaces";
 import basketUtilities from "../components/Basket/BasketUtilities";
-import axios from "axios";
+import axios, { AxiosError, CanceledError } from "axios";
 import { error } from "console";
 import { fetchProducts } from "../api/FetchDataFromDjangoApi";
 
@@ -23,19 +23,26 @@ const Basket = () => {
   const [carouselItems, setCarouselItems] = useState<ItemProps[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const { calculateSubtotal } = basketUtilities();
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const fetchAndSetProducts = async () => {
       try {
-        const products = await fetchProducts();
+        const products = await fetchProducts(signal);
         setBasketItems(products.slice(0, 5));
         generateCarouselItems(products, products.slice(0, 5));
       } catch (error) {
+        if (axios.isCancel(error)) return; // Check if the request was cancelled
         console.error("Failed to fetch products", error);
+        setError((error as AxiosError).message);
       }
     };
 
     fetchAndSetProducts();
+    return () => controller.abort();
   }, []);
 
   const generateCarouselItems = (allItems: any, basketItems: any) => {
@@ -78,6 +85,11 @@ const Basket = () => {
 
   return (
     <div className="baketPageContainer">
+      {error && (
+        <p className="error">
+          <strong>{error}</strong>
+        </p>
+      )}
       <BasketItems
         basketItems={basketItems}
         setBasketItems={setBasketItems}

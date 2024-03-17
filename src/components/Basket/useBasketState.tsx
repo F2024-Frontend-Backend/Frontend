@@ -3,6 +3,7 @@ import basketUtilities from "./BasketUtilities";
 import { useState } from "react";
 import "./ShoppingBasket.css";
 import { useEffect } from "react";
+import axios, { AxiosError, CanceledError } from "axios";
 
 export const useBasketState = (
   basketItems: ItemProps[],
@@ -32,17 +33,24 @@ export const useBasketState = (
     }));
     console.log("Inside of handleItemCountChange after return.");
   };
-
+  const [error, setError] = useState("");
   const handleDelete = (itemId: string) => {
     console.log("Inside of handleDelete.");
-
-    setBasketItems((prev) => prev.filter((item) => item.id !== itemId));
+    const originalItems = [...basketItems];
+    setBasketItems((prev: ItemProps[]) =>
+      prev.filter((item) => item.id !== itemId)
+    );
     setItemCounts((prev) => {
       const newState = { ...prev };
       delete newState[itemId];
       return newState;
     });
-    console.log("Inside of handleDelete after return.");
+    axios
+      .delete("http://127.0.0.1:8000/api/products/" + itemId)
+      .catch((error) => {
+        setError(error.message);
+        setBasketItems(originalItems);
+      });
   };
 
   return { basketItems, itemCounts, handleItemCountChange, handleDelete };

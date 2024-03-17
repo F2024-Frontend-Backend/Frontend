@@ -24,11 +24,12 @@ const Basket = () => {
   const [subtotal, setSubtotal] = useState<number>(0);
   const { calculateSubtotal } = basketUtilities();
   const [error, setError] = useState("");
+  const [isLoading, setloading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
+    setloading(true);
     const fetchAndSetProducts = async () => {
       try {
         const products = await fetchProducts(signal);
@@ -38,9 +39,11 @@ const Basket = () => {
         if (axios.isCancel(error)) return; // Check if the request was cancelled
         console.error("Failed to fetch products", error);
         setError((error as AxiosError).message);
+      } finally {
+        // Stop loading after the fetch operation completes
+        setloading(false);
       }
     };
-
     fetchAndSetProducts();
     return () => controller.abort();
   }, []);
@@ -90,6 +93,7 @@ const Basket = () => {
           <strong>{error}</strong>
         </p>
       )}
+      {isLoading && <div className="loading"></div>}
       <BasketItems
         basketItems={basketItems}
         setBasketItems={setBasketItems}

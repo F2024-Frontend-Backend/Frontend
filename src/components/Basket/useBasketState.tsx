@@ -4,9 +4,24 @@ import { useState } from "react";
 import "./ShoppingBasket.css";
 import { useEffect } from "react";
 
+/**
+ *
+ * @param basketItems
+ * @param setBasketItems
+ * @returns
+ * - The hook returns:
+ * - basketItems: The current array of items in the basket.
+ * - itemCounts: itemId and the count of that item in the basket.
+ * - handleItemCountChange: Updating the count of a specific item in the basket.
+ * - handleDelete: Removing an item from the basket.
+ */
+
 export const useBasketState = (
   basketItems: ItemProps[],
-  setBasketItems: (value: ItemProps[]) => void
+  // Get an array of ItemProps or a function thate takes an array of ItemProps
+  setBasketItems: (
+    value: ItemProps[] | ((prev: ItemProps[]) => ItemProps[])
+  ) => void // Accept either a new state or previouse state.
 ) => {
   const { initializeItemCounts } = basketUtilities();
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
@@ -36,7 +51,9 @@ export const useBasketState = (
   const handleDelete = (itemId: string) => {
     console.log("Inside of handleDelete.");
 
-    setBasketItems((prev) => prev.filter((item) => item.id !== itemId));
+    setBasketItems((prev: ItemProps[]) =>
+      prev.filter((item: ItemProps) => item.id !== itemId)
+    );
     setItemCounts((prev) => {
       const newState = { ...prev };
       delete newState[itemId];

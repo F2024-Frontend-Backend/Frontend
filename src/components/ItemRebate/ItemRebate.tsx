@@ -1,12 +1,6 @@
 import { useState } from "react";
-
+import { ReabteProps } from "../../interfaces/interfaces";
 import "./ItemRabate.css";
-
-interface ReabteProps {
-    rebateQuantity: number;
-    rebatePercent: number;
-    count: number;
-  }
   
   const Rebate: React.FC<ReabteProps> = ({
     rebatePercent,

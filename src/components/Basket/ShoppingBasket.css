@@ -1,5 +1,4 @@
 body{
-
     background-color: lightgray;
   }
 
@@ -7,12 +6,56 @@ body{
     color: black;
   }
 
-  .basketContainer{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  /* SHOPPING BASKET START */
+
+  /* Top label */
+  .basket-labels {
+    border-bottom: 3px solid black;
+    margin-top: 1px;
+    padding-bottom: 1%;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
   
+  li {
+    color: #111;
+    display: inline-block;
+    padding: 0.625rem 0;
+    width: 15%;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+
+  .products {
+    position: relative;
+    left: 8px;
+  }
+
+  .priceL{
+    position: relative;
+    left: 90px;
+  }
+
+  .quantityL{
+    position: relative;
+    left: 112px;
+  }
+
+  .subtotal {
+    text-align: right;
+    position: relative;
+    left: 104px;
+  }
+
+  /* Basket list */
+  .basketContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    }
 
   .itemContainer {
     background-color: aliceblue;
@@ -28,58 +71,6 @@ body{
     border-bottom: 2px solid black;
   }
 
-  .itemDetails {
-    width: 100%;
-  }
-
-  .topSection {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .itemName {
-    font-size: 1.3rem;
-    font-weight: bold;
-  }
-
-  .bottomSection {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .leftContainer {
-    width: 40%;
-  }
-
-  .rightContainer {
-    width: 60%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 3rem;
-  }
-
- 
-
-    .itemInnerContainer {
-      display: flex;
-      flex-direction: column;
-    }
-
-    
-    
-  
-  
-  .price{
-    position: relative;
-    left: 50%;   
-  }
-  .name{
-    width: 90px;
-    margin-top: 3%;
-    margin-left:2%;
-  }
-
   .imageContainer {
     width: 80px;
     height: 100px;
@@ -90,101 +81,68 @@ body{
     height: 100%;
     object-fit: contain;
   }
-  
 
-   .name, .price, .quantity, .total{
-      display: inline-flex; 
-      margin-top: 0;
-      align-items: center;
-      float: left;
-    }
-    
-    .price{
-      position: relative;
-      left: 30%;   
-    }
-    .name{
-      /*width: 90px;*/
-      margin-top: 3%;
-      /*margin-left: 4%;*/
-    }
-
-    
-  
-  .btn:hover{
-      box-shadow: 0 2px 4px 0;
-  }
-  .btw{
-    margin-right: 3px;
-    margin-left: 3px;
+  .itemDetails {
+    width: 100%;
   }
 
-  .priceL,
-  .quantityL,
-  .subtotal {
-    width: 15%;
-    font-family:Arial, Helvetica, sans-serif;
-  }
-  .priceL{
-    position: relative;
-    left: 90px;
-  }
-  .quantityL{
-    position: relative;
-    left: 112px;
-  }
-  .subtotal {
-    text-align: right;
-    position: relative;
-    left: 104px;
-    
-  }
-  
-  .products {
-    position: relative;
-    left: 8px;
-    font-family:Arial, Helvetica, sans-serif;
-  }
-  
-  
-  .basket-labels {
-    border-bottom: 3px solid black;
-    margin-top: 1px;
-    padding-bottom: 1%;
-  }
-  
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    
-  }
-  
-  li {
-    color: #111;
-    display: inline-block;
-    padding: 0.625rem 0;
-    
+  .itemDetails .topSection {
+    display: flex;
+    flex-direction: column;
   }
 
-  
-  
-  
+  .itemName {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .itemDetails .bottomSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .itemDetails .bottomSection .leftContainer {
+    width: 40%;
+  }
+
+  .itemDetails .bottomSection .rightContainer {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3rem;
+  }
+
   .counterButton{
     width: 120px;
    bottom: 20%;
-    }
+  }
+
+    .btn:hover{
+    box-shadow: 0 2px 4px 0;
+  }
+
+  .btw{
+    margin-right: 3px;
+    margin-left: 3px;
+  } 
+
   .deleteIcon{
     cursor: pointer;
   }
   .deleteIcon:hover{
    color: red;
   }
-  .deleteBtn{
-    border-color: white;
-    border: none;
-    width: 5px;
-    height: 5px;
-    margin-left: 5px;  
-  }
+
+  /* SHOPPING BASKET END */
+
+  /* TOTAL START */
+
   
+
+  /* TOTAL END */
+
+  .itemInnerContainer {
+    display: flex;
+    flex-direction: column;
+  }

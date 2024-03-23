@@ -28,4 +28,10 @@ interface CarouselItemProps {
   addToBasket: (id: string) => void;
 }
 
-export type { ItemProps, ItemListProps, CarouselItemProps };
+interface ReabteProps {
+  rebateQuantity: number;
+  rebatePercent: number;
+  count: number;
+}
+
+export type { ItemProps, ItemListProps, CarouselItemProps, ReabteProps};

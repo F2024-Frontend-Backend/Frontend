@@ -12,7 +12,9 @@ interface ItemProps {
 
 interface ItemListProps {
   basketItems: ItemProps[];
-  setBasketItems: (value: ItemProps[]) => void;
+  setBasketItems: (
+    value: ItemProps[] | ((prev: ItemProps[]) => ItemProps[])
+  ) => void;
   itemCount: { [key: string]: number };
   onItemCountChange: (itemId: string, newCount: number) => void;
 }

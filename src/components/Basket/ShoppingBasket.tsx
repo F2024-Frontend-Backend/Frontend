@@ -10,8 +10,8 @@ import { useBasketState } from "./useBasketState";
 import { OrderItems } from "./BasketItem";
 
 export interface BasketItemProps {
-  product: ItemProps;
-  count: number;
+  //product: ItemProps;
+  //count: number;
   onItemCountChange: (itemId: string, newCount: number) => void;
   handleDelete: (itemId: string) => void;
 }
@@ -96,7 +96,7 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
 };
 
 // ItemsList Component
-const BasketItems: React.FC<ItemListProps & ItemProps> = ({
+const BasketItems: React.FC<ItemListProps> = ({
   basketItems,
   setBasketItems,
 }) => {
@@ -104,7 +104,7 @@ const BasketItems: React.FC<ItemListProps & ItemProps> = ({
   const { itemCounts, handleItemCountChange, handleDelete } = useBasketState(
     basketItems,
     setBasketItems
-  );
+  ); // managing the state of the basket item
 
   console.log("items: " + basketItems.length + " , " + itemCounts);
 

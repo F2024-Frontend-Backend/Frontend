@@ -49,8 +49,6 @@ export const useBasketState = (
   };
 
   const handleDelete = (itemId: string) => {
-    console.log("Inside of handleDelete.");
-
     setBasketItems((prev: ItemProps[]) =>
       prev.filter((item: ItemProps) => item.id !== itemId)
     );
@@ -59,7 +57,6 @@ export const useBasketState = (
       delete newState[itemId];
       return newState;
     });
-    console.log("Inside of handleDelete after return.");
   };
 
   return { basketItems, itemCounts, handleItemCountChange, handleDelete };

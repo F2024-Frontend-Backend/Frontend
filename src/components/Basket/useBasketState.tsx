@@ -24,13 +24,14 @@ export const useBasketState = (
   ) => void // Accept either a new state or previouse state.
 ) => {
   const { initializeItemCounts } = basketUtilities();
+
   const [itemCount, setItemCounts] = useState<{ [key: string]: number }>(() => {
     console.log("set initialItemCounts");
     return initializeItemCounts(basketItems, 1);
   });
   useEffect(() => {
     console.log("Recalculating itemCounts due to basketItems change");
-    const updatedItemCounts = initializeItemCounts(basketItems, 1);
+    const updatedItemCounts = initializeItemCounts(basketItems);
     setItemCounts(updatedItemCounts);
   }, [basketItems]);
 
@@ -50,10 +51,10 @@ export const useBasketState = (
     setBasketItems((prev: ItemProps[]) =>
       prev.filter((item: ItemProps) => item.id !== itemId)
     );
-    setItemCounts((prev) => {
-      const newState = { ...prev };
-      delete newState[itemId];
-      return newState;
+    setItemCounts((prevCounts) => {
+      const newCounts = { ...prevCounts };
+      delete newCounts[itemId]; // Remove the item count, do not reset all counts
+      return newCounts;
     });
   };
 

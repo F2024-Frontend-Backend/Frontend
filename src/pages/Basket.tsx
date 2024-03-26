@@ -44,7 +44,8 @@ const Basket = () => {
   const { calculateSubtotal } = basketUtilities();
   const { itemCount, handleItemCountChange } = useBasketState(
     basketItems,
-    () => {}
+    //() => {}
+    setBasketItems
   );
 
   useEffect(() => {
@@ -89,7 +90,6 @@ const Basket = () => {
       if (item.id === id) {
         const newBasket: ItemProps[] = basketItems;
         newBasket.push(item);
-
         setBasketItems(newBasket);
         generateCarouselItems(allItems, basketItems);
       }
@@ -121,14 +121,14 @@ const Basket = () => {
     );
   };
 
-  // Litsen to changes, if ready, navigate to checkout
+  // Litsen to changes, if ready, navigate to checkout, make sure itemCount is updated
   useEffect(() => {
     if (readyToNavigate) {
       console.log("Final check before navigation:", itemCount, basketItems);
       console.log("Navigating with itemCount:", itemCount);
       console.log("Navigating with basketItems:", basketItems);
       navigate(`/checkout`, {
-        state: { basket: basketItems, itemCount: itemCount || {} },
+        state: { basket: basketItems, itemCount },
       });
       setReadyToNavigate(false);
     }

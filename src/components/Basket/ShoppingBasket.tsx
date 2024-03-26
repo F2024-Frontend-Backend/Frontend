@@ -67,6 +67,7 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
           <div className="rightContainer">
             <span className="counterButton">
               <CounterButton
+                count={count}
                 onCountChange={(newCount: number) => {
                   console.log(`Changing count for item ${id}`);
                   onItemCountChange(id, newCount);

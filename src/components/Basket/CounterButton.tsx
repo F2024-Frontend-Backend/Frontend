@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ShoppingBasket.css";
+import basketUtilities from "./BasketUtilities";
 
 interface CounterButton {
+  count: number;
   min?: number;
   max?: number;
   //onCountChange: (newCount: number) => void;
@@ -9,17 +11,23 @@ interface CounterButton {
 }
 
 export const CounterButton: React.FC<CounterButton> = ({
+  count,
   min = 1,
   max = 5,
   onCountChange,
 }) => {
-  const [count, setCount] = useState(1);
+  const [localCount, setLocalCount] = useState(count);
+
+  // Synchroze local state with prop
+  useEffect(() => {
+    setLocalCount(count);
+  }, [count]);
 
   // Function to handle decrement
   const handleDecrement = () => {
     const newCount = count - 1;
     if (newCount >= min) {
-      setCount(newCount);
+      setLocalCount(newCount);
       onCountChange(newCount);
     }
   };
@@ -28,7 +36,7 @@ export const CounterButton: React.FC<CounterButton> = ({
   const handleIncrement = () => {
     const newCount = count + 1;
     if (newCount <= max) {
-      setCount(newCount);
+      setLocalCount(newCount);
       onCountChange(newCount);
     }
   };
@@ -39,7 +47,7 @@ export const CounterButton: React.FC<CounterButton> = ({
         <button className="btn" onClick={handleDecrement}>
           <strong>-</strong>
         </button>
-        <span className="btw">{count}</span>
+        <span className="btw">{localCount}</span>
         <button className="btn" onClick={handleIncrement}>
           <strong>+</strong>
         </button>

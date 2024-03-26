@@ -4,7 +4,7 @@ import "./App.css";
 import "./components/Basket/ShoppingBasket.css";
 import Basket from "./pages/Basket";
 import Checkout from "./pages/Checkout/Checkout";
-import Receipt from "./pages/Receipt";
+import PurchaseTotal from "./components/purchaseTotal/purchaseTotal";
 import OrderReceived from "./components/OrderReceived/order_received";
 
 function App() {
@@ -13,7 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="receipt" element={<OrderReceived />} />
+          {/**<Route path="checkout" element={<PurchaseTotal />} />*/}
           <Route path="checkout" element={<Checkout />} />
+
           <Route path="" element={<Basket />} />
         </Routes>
       </BrowserRouter>

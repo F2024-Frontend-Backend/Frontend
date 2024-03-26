@@ -5,6 +5,8 @@ import "./pages.css";
 import Carousel from "../components/Carousel/Carousel";
 import { ItemProps } from "../interfaces/interfaces";
 import basketUtilities from "../components/Basket/BasketUtilities";
+import { useNavigate } from "react-router-dom";
+import { useBasketState } from "../components/Basket/useBasketState";
 
 // Fetch Items from file
 const getItems = async (filePath: RequestInfo, fileType: String) => {
@@ -22,19 +24,28 @@ const getItems = async (filePath: RequestInfo, fileType: String) => {
 };
 
 const Basket = () => {
-  const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
+  {
+    /**
+ const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
 
   //Take the current stat 'prev' and return a new stat
   const handleItemCountChange = (itemId: string, newCount: number) => {
     setItemCount((prev) => ({ ...prev, [itemId]: newCount }));
-  };
+    console.log("new count for item", itemId, ":", newCount);
+  }; */
+  }
 
   //const [emptyBasket, setBasketEmpty] = useState(false);
   const [allItems, setAllItems] = useState<ItemProps[]>([]);
   const [basketItems, setBasketItems] = useState<ItemProps[]>([]);
+  //const { basketItems, setBasketItems } = useBasketState();
   const [carouselItems, setCarouselItems] = useState<ItemProps[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const { calculateSubtotal } = basketUtilities();
+  const { itemCount, handleItemCountChange } = useBasketState(
+    basketItems,
+    () => {}
+  );
 
   useEffect(() => {
     fetchItems();
@@ -51,29 +62,6 @@ const Basket = () => {
       console.error(error);
     }
   };
-
-  {
-    /**  const checkIfBasketIsEmpty = () => {
-    const isEmpty =
-      Object.keys(itemCount).length === 0 ||
-      Object.values(itemCount).every((count) => count === 0);
-    setBasketEmpty(isEmpty);
-  };
-  const [showAlert, setShowAlert] = useState(true);
-
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-  }, [itemCount]);
- // Debugging
-  console.log("I am before return in Basket");
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-    console.log(`emptyBasket: ${emptyBasket}, showAlert: ${showAlert}`);
-  }, [itemCount, emptyBasket, showAlert]);
- */
-  }
 
   const generateCarouselItems = (allItems: any, basketItems: any) => {
     let newCarousel: any = [];
@@ -113,6 +101,38 @@ const Basket = () => {
     setSubtotal(newSubtotal); // Recalculate subtotal
   }, [itemCount, basketItems]);
 
+  // Make sure that itemCount is updated before navigating to checkout
+  // A flag that checks when ready to checkout
+  const [readyToNavigate, setReadyToNavigate] = useState(false);
+
+  // Pass Basket items
+  const navigate = useNavigate();
+  const handleCheckout = () => {
+    console.log("Navigating with itemCount:", itemCount);
+    {
+      /** navigate(`/checkout`, {
+      state: { basket: basketItems, itemCount: itemCount || {} },
+    }); */
+    }
+    setReadyToNavigate(true);
+    console.log(
+      "Navigating with itemCount after setting flag to true:",
+      itemCount
+    );
+  };
+
+  // Litsen to changes, if ready, navigate to checkout
+  useEffect(() => {
+    if (readyToNavigate) {
+      console.log("Final check before navigation:", itemCount, basketItems);
+      console.log("Navigating with itemCount:", itemCount);
+      console.log("Navigating with basketItems:", basketItems);
+      navigate(`/checkout`, {
+        state: { basket: basketItems, itemCount: itemCount || {} },
+      });
+      setReadyToNavigate(false);
+    }
+  }, [readyToNavigate, itemCount, basketItems, navigate]);
   return (
     <div className="baketPageContainer">
       <BasketItems
@@ -122,9 +142,10 @@ const Basket = () => {
         itemCount={itemCount}
       />
       <div>Subtotal: {subtotal}</div>
-      <button>
+      {/**<button onClick={handleCheckout}>
         <Link to={`/checkout`}>Go to checkout </Link>
-      </button>
+      </button> */}
+      <button onClick={handleCheckout}>Go to checkout</button>
 
       <Carousel itemList={carouselItems} addToBasket={addToBasket}></Carousel>
     </div>

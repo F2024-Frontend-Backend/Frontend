@@ -101,15 +101,15 @@ const BasketItems: React.FC<ItemListProps> = ({
   setBasketItems,
 }) => {
   const { calculateDiscount, calculateSubtotal } = basketUtilities();
-  const { itemCounts, handleItemCountChange, handleDelete } = useBasketState(
+  const { itemCount, handleItemCountChange, handleDelete } = useBasketState(
     basketItems,
     setBasketItems
   ); // managing the state of the basket item
 
-  console.log("items: " + basketItems.length + " , " + itemCounts);
+  console.log("items: " + basketItems.length + " , " + itemCount);
 
   // Calculate subtotal
-  const subtotal = calculateSubtotal(basketItems, itemCounts);
+  const subtotal = calculateSubtotal(basketItems, itemCount);
   console.log(subtotal);
   // Calculate Discount
   const discount = calculateDiscount(subtotal);
@@ -120,13 +120,13 @@ const BasketItems: React.FC<ItemListProps> = ({
   // Check if basket is empty
   console.log(
     "itemCounts: ",
-    Object.values(itemCounts),
+    Object.values(itemCount),
     "basket: ",
     basketItems
   );
 
   const isEmpty =
-    Object.values(itemCounts).every((count) => count === 0) ||
+    Object.values(itemCount).every((count) => count === 0) ||
     basketItems.length === 0;
   console.log("empty: " + isEmpty);
   console.log(" Before return Basket Items.");
@@ -141,7 +141,7 @@ const BasketItems: React.FC<ItemListProps> = ({
             <ItemComponent
               key={item.id}
               {...item}
-              count={itemCounts[item.id] || 0}
+              count={itemCount[item.id] || 0}
               onItemCountChange={handleItemCountChange}
               handleDelete={handleDelete}
             />

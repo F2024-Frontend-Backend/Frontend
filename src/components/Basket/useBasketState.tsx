@@ -24,19 +24,17 @@ export const useBasketState = (
   ) => void // Accept either a new state or previouse state.
 ) => {
   const { initializeItemCounts } = basketUtilities();
-  const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
-    () => {
-      console.log("set initialItemCounts");
-      return initializeItemCounts(basketItems, 1);
-    }
-  );
+  const [itemCount, setItemCounts] = useState<{ [key: string]: number }>(() => {
+    console.log("set initialItemCounts");
+    return initializeItemCounts(basketItems, 1);
+  });
   useEffect(() => {
     console.log("Recalculating itemCounts due to basketItems change");
     const updatedItemCounts = initializeItemCounts(basketItems, 1);
     setItemCounts(updatedItemCounts);
   }, [basketItems]);
 
-  console.log("Initial itemCounts:", itemCounts);
+  console.log("Initial itemCounts:", itemCount);
   console.log("Initial basketItems:", basketItems);
 
   const handleItemCountChange = (itemId: string, newCount: number) => {
@@ -59,5 +57,47 @@ export const useBasketState = (
     });
   };
 
-  return { basketItems, itemCounts, handleItemCountChange, handleDelete };
+  return {
+    basketItems,
+    setBasketItems,
+    itemCount,
+    handleItemCountChange,
+    handleDelete,
+  };
 };
+{
+  /** initialBasketItems: ItemProps[] = [] // default to an empty array if no argument is provided
+) => {
+  const [basketItems, setBasketItems] =
+    useState<ItemProps[]>(initialBasketItems);
+  const [itemCount, setItemCount] = useState<{ [key: string]: number }>({});
+
+  // Initialize itemCount based on basketItems
+  useEffect(() => {
+    const initialCounts = basketItems.reduce((counts, item) => {
+      counts[item.id] = (counts[item.id] || 0) + 1;
+      return counts;
+    }, {} as { [key: string]: number });
+    setItemCount(initialCounts);
+  }, [basketItems]);
+
+  const handleItemCountChange = (itemId: string, newCount: number) => {
+    console.log("Inside of handleItemCountChange.");
+    setItemCount((prevCounts) => ({
+      ...prevCounts,
+      [itemId]: newCount,
+    }));
+    console.log("Inside of handleItemCountChange after return.");
+  };
+    const handleDelete = (itemId: string) => {
+    setBasketItems((prev: ItemProps[]) =>
+      prev.filter((item: ItemProps) => item.id !== itemId)
+    );
+    setItemCount((prev) => {
+      const newState = { ...prev };
+      delete newState[itemId];
+      return newState;
+    });
+  };
+ */
+}

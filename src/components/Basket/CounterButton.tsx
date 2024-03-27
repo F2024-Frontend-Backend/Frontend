@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import "./ShoppingBasket.css";
-import basketUtilities from "./BasketUtilities";
 
 interface CounterButton {
   count: number;
   min?: number;
   max?: number;
-  //onCountChange: (newCount: number) => void;
   onCountChange: (newCount: number) => void;
 }
 

@@ -15,7 +15,7 @@ import { useEffect } from "react";
  * - handleItemCountChange: Updating the count of a specific item in the basket.
  * - handleDelete: Removing an item from the basket.
  */
-
+// Managing app's state concerning the basket items and their counts
 export const useBasketState = (
   basketItems: ItemProps[],
   // Get an array of ItemProps or a function thate takes an array of ItemProps

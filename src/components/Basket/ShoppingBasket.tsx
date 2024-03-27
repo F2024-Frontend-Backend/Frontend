@@ -25,14 +25,15 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
   count,
   rebatePercent,
   rebateQuantity,
-  onItemCountChange,
-  handleDelete,
+  onItemCountChange, // passed from BasketItems
+  handleDelete, // passed from BasketItems
 }) => {
   let totalPrice = price * count;
   console.log(
     `Rendering ItemComponent: ${name}, Price: ${price}, Count: ${count}, Total Price: ${totalPrice}`
   );
   const [showAlert, setShowAlert] = useState(true);
+  //const {handleItemCountChange} = useBasketState(BasketItems,setBasketItems)
 
   useEffect(() => {
     if (count === 3) {
@@ -67,7 +68,7 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
           <div className="rightContainer">
             <span className="counterButton">
               <CounterButton
-                count={count}
+                count={count || 0}
                 onCountChange={(newCount: number) => {
                   console.log(`Changing count for item ${id}`);
                   onItemCountChange(id, newCount);

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import postalCodes from "./postalCode.json"; // Make sure this path is correct for your project structure
-import "./BillingInfo.css";
-import "./vatUtils.ts"
+import postalCodes from "./postalCode.json";
+import "./vatUtils.ts";
 import { validateVAT } from "./vatUtils.ts";
 
 const BillingInfo = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  //const [address, setAddress] = useState("");
-  const [addressLine1, setAddressLine1] = useState(""); // Tilføjet
-  const [addressLine2, setAddressLine2] = useState(""); // Tilføjet
+  const [country, setCountry] = useState("DK");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
   const [postal, setPostal] = useState("");
   const [city, setCity] = useState("");
   const [number, setNumber] = useState("");
@@ -35,19 +34,25 @@ const BillingInfo = () => {
   const handlePostalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const postalCode = event.target.value;
     setPostal(postalCode);
-    // Clear the error message if the postal code field is empty
+
     if (!postalCode) {
       setPostalError("");
       setCity("");
-      return; // Exit the function early
+      return;
     }
-    const cityName = findCityByPostalCode(postalCode);
-    if (cityName) {
-      setCity(cityName);
-      setPostalError(""); // Clear any existing error message
+
+    if (/^\d{4}$/.test(postalCode)) {
+      const cityName = findCityByPostalCode(postalCode);
+      if (cityName) {
+        setCity(cityName);
+        setPostalError("");
+      } else {
+        setCity("");
+        setPostalError("No city found for this postal code.");
+      }
     } else {
       setCity("");
-      setPostalError("Invalid postal code entered."); // Set an error message
+      setPostalError("Postal code should be 4 digits.");
     }
   };
 
@@ -57,20 +62,24 @@ const BillingInfo = () => {
     const postalCode = event.target.value;
     setDeliveryPostal(postalCode);
 
-    // Clear the error message if the postal code field is empty
     if (!postalCode) {
-      setDeliveryPostalError(""); // Correctly clear the delivery postal error message
+      setDeliveryPostalError("");
       setDeliveryCity("");
-      return; // Exit the function early
+      return;
     }
 
-    const cityName = findCityByPostalCode(postalCode);
-    if (cityName) {
-      setDeliveryCity(cityName);
-      setDeliveryPostalError(""); // Correctly clear any existing error message for delivery postal code
+    if (/^\d{4}$/.test(postalCode)) {
+      const cityName = findCityByPostalCode(postalCode);
+      if (cityName) {
+        setDeliveryCity(cityName);
+        setDeliveryPostalError("");
+      } else {
+        setDeliveryCity("");
+        setDeliveryPostalError("Invalid delivery postal code entered.");
+      }
     } else {
       setDeliveryCity("");
-      setDeliveryPostalError("Invalid delivery postal code entered."); // Set an error message for delivery postal code
+      setDeliveryPostalError("Delivery postal code should be 4 digits.");
     }
   };
 
@@ -82,23 +91,22 @@ const BillingInfo = () => {
     const vat = event.target.value;
     setVAT(vat);
     const valVat = validateVAT(vat);
-    if(!valVat.isValid){
+    if (!valVat.isValid) {
       setVatErrors(valVat.message);
-    }
-    else{
+    } else {
       setVatErrors("");
     }
   };
 
   const checkIfCompNamePresent = (): boolean => {
-    if(companyName === ""){
-      return false
+    if (companyName === "") {
+      return false;
     }
     return true;
   };
 
   const checkIfVATPresent = (): boolean => {
-    if(companyVAT === ""){
+    if (companyVAT === "") {
       return false;
     }
     return true;
@@ -122,8 +130,6 @@ const BillingInfo = () => {
     });
     // Add logic here to process form submission, such as sending data to a backend server
   };
-
-
 
   return (
     <form onSubmit={handleSubmit} className="billing-info-form">
@@ -149,6 +155,19 @@ const BillingInfo = () => {
           required
           onChange={(e) => setLastName(e.target.value)}
         />
+      </div>
+
+      <div>
+        <label htmlFor="country">Country:</label> <br />
+        <select
+          id="country"
+          name="country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          required
+        >
+          <option value="DK">Denmark</option>
+        </select>
       </div>
 
       <div>
@@ -183,6 +202,9 @@ const BillingInfo = () => {
           required
           value={postal}
           onChange={handlePostalChange}
+          pattern="\d{4}"
+          title="Postal code should be 4 digits."
+          maxLength={4}
         />
         {postalError && <div className="error-message">{postalError}</div>}
       </div>
@@ -235,7 +257,7 @@ const BillingInfo = () => {
               type="text"
               id="deliveryFirstName"
               name="deliveryFirstName"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               value={deliveryFirstName}
               onChange={(e) => setDeliveryFirstName(e.target.value)}
             />
@@ -246,7 +268,7 @@ const BillingInfo = () => {
             <input
               type="text"
               id="deliveryLastName"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               name="deliveryLastName"
               value={deliveryLastName}
               onChange={(e) => setDeliveryLastName(e.target.value)}
@@ -257,7 +279,7 @@ const BillingInfo = () => {
             <input
               type="text"
               id="deliveryAddressLine1"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               name="deliveryAddressLine1"
               value={deliveryAddressLine1}
               onChange={(e) => setDeliveryAddressLine1(e.target.value)}
@@ -267,11 +289,12 @@ const BillingInfo = () => {
           <div>
             <label htmlFor="deliveryAddressLine2">
               Address Line 2 (Optional):
-            </label> <br />
+            </label>{" "}
+            <br />
             <input
               type="text"
               id="deliveryAddressLine2"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               name="deliveryAddressLine2"
               value={deliveryAddressLine2}
               onChange={(e) => setDeliveryAddressLine2(e.target.value)}
@@ -284,9 +307,10 @@ const BillingInfo = () => {
               type="text"
               id="deliveryPostal"
               name="deliveryPostal"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               value={deliveryPostal}
               onChange={handleDeliveryPostalChange}
+              maxLength={4}
             />
             {deliveryPostalError && (
               <div className="error-message">{deliveryPostalError}</div>
@@ -299,39 +323,39 @@ const BillingInfo = () => {
               type="text"
               id="deliveryCity"
               name="deliveryCity"
-              required = {isBillingDifferent}
+              required={isBillingDifferent}
               value={deliveryCity}
               readOnly
             />
           </div>
         </>
       )}
-         <div>
-         <label htmlFor="companyName">Company Name:</label> <br/>
-       <input
+      <div>
+        <label htmlFor="companyName">Company Name:</label> <br />
+        <input
           type="text"
           id="companyName"
           name="companyName"
           value={companyName}
-          required = {checkIfVATPresent()}
+          required={checkIfVATPresent()}
           onChange={handleCompanyChange}
         />
       </div>
-        <div>
-        <label htmlFor="companyVAT">Company VAT:</label> <br/>
-       <input
-         type="numeric"
+      <div>
+        <label htmlFor="companyVAT">Company VAT:</label> <br />
+        <input
+          type="numeric"
           inputMode="numeric"
           id="companyVAT"
           name="companyVAT"
           value={companyVAT}
-          required = {checkIfCompNamePresent()}
-          pattern = "((1[0-9]{7})|((0|[2-9])[0-9]*))"
+          required={checkIfCompNamePresent()}
+          pattern="((1[0-9]{7})|((0|[2-9])[0-9]*))"
           //not sure if we are allowed to just use the pattern then give it a regex. This should work for now, but I think it would be a bit complex later.
           onChange={handleVATChange}
-      />
-      {vatErrors && <div className="error-message">{vatErrors}</div>}
-       </div>
+        />
+        {vatErrors && <div className="error-message">{vatErrors}</div>}
+      </div>
       <button type="submit">Submit</button>
     </form>
   );

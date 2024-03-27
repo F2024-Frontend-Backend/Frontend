@@ -52,29 +52,6 @@ const Basket = () => {
     }
   };
 
-  {
-    /**  const checkIfBasketIsEmpty = () => {
-    const isEmpty =
-      Object.keys(itemCount).length === 0 ||
-      Object.values(itemCount).every((count) => count === 0);
-    setBasketEmpty(isEmpty);
-  };
-  const [showAlert, setShowAlert] = useState(true);
-
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-  }, [itemCount]);
- // Debugging
-  console.log("I am before return in Basket");
-  useEffect(() => {
-    checkIfBasketIsEmpty();
-    setShowAlert(emptyBasket);
-    console.log(`emptyBasket: ${emptyBasket}, showAlert: ${showAlert}`);
-  }, [itemCount, emptyBasket, showAlert]);
- */
-  }
-
   const generateCarouselItems = (allItems: any, basketItems: any) => {
     let newCarousel: any = [];
     let upsellIds: string[] = [];

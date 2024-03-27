@@ -6,7 +6,9 @@ import { useEffect } from "react";
 
 export const useBasketState = (
   basketItems: ItemProps[],
-  setBasketItems: (value: ItemProps[]) => void
+  setBasketItems: (
+    value: ItemProps[] | ((prev: ItemProps[]) => ItemProps[])
+  ) => void // Accept either a new state or previouse state.
 ) => {
   const { initializeItemCounts } = basketUtilities();
   const [itemCounts, setItemCounts] = useState<{ [key: string]: number }>(
@@ -36,7 +38,9 @@ export const useBasketState = (
   const handleDelete = (itemId: string) => {
     console.log("Inside of handleDelete.");
 
-    setBasketItems((prev) => prev.filter((item) => item.id !== itemId));
+    setBasketItems((prev: ItemProps[]) =>
+      prev.filter((item: ItemProps) => item.id !== itemId)
+    );
     setItemCounts((prev) => {
       const newState = { ...prev };
       delete newState[itemId];

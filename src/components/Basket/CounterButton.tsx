@@ -4,7 +4,6 @@ import "./ShoppingBasket.css";
 interface CounterButton {
   min?: number;
   max?: number;
-  //onCountChange: (newCount: number) => void;
   onCountChange: (newCount: number) => void;
 }
 

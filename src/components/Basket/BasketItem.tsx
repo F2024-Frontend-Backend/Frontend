@@ -32,7 +32,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
 type BasketItemsProps = {
   subtotal: number;
   discount: number;
-  shipping: number;
+  //shipping: number;
   totalAfterDiscount: number;
 };
 

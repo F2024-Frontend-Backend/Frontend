@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import "./ShoppingBasket.css";
 import CounterButton from "./CounterButton";
 import { BaskedLabels } from "./BasketLabel";
@@ -10,8 +9,6 @@ import { useBasketState } from "./useBasketState";
 import { OrderItems } from "./BasketItem";
 
 export interface BasketItemProps {
-  product: ItemProps;
-  count: number;
   onItemCountChange: (itemId: string, newCount: number) => void;
   handleDelete: (itemId: string) => void;
 }
@@ -32,15 +29,6 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
   console.log(
     `Rendering ItemComponent: ${name}, Price: ${price}, Count: ${count}, Total Price: ${totalPrice}`
   );
-  const [showAlert, setShowAlert] = useState(true);
-
-  useEffect(() => {
-    if (count === 3) {
-      setShowAlert(true);
-    } else {
-      setShowAlert(false);
-    }
-  }, [count]);
 
   return (
     <div className="itemContainer">
@@ -86,17 +74,12 @@ const ItemComponent: React.FC<ItemProps & BasketItemProps> = ({
       <button onClick={() => handleDelete(id)} className="deleteIcon">
         x
       </button>
-      {/*count === 3 && showAlert && (
-          <Alert severity="info" onClose={() => setShowAlert(false)}>
-            Buy 3 and get one for free!
-          </Alert>
-        )*/}
     </div>
   );
 };
 
 // ItemsList Component
-const BasketItems: React.FC<ItemListProps & ItemProps> = ({
+const BasketItems: React.FC<ItemListProps> = ({
   basketItems,
   setBasketItems,
 }) => {

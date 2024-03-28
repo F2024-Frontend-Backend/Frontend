@@ -26,6 +26,9 @@ const BillingInfo = () => {
   const [companyVAT, setVAT] = useState("");
   const [vatErrors, setVatErrors] = useState("");
 
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+
+
   const findCityByPostalCode = (postalCode: string) => {
     const entry = postalCodes.find((item) => item.nr === postalCode);
     return entry ? entry.navn : null;
@@ -111,9 +114,53 @@ const BillingInfo = () => {
     }
     return true;
   };
+  /**
+   *  @HallaRamadan
+   * @param phoneNumber
+   * @returns 
+   */
+  const validatePhoneNumber = (phoneNumber: string) => {
+    // If country is Denmark and phone number is not empty
+    if (country === "DK" && phoneNumber.trim() !== "") {
+      // Validate if phone number is 8 digits
+      if(/^\d{8}$/.test(phoneNumber)){
+        return true;
+      }
+      else{
+        return "Phone number should be exactly 8 digits.";
+      } 
+    }
+    // If country is not Denmark or phone number is empty, return true (valid)
+    return false;
+  };
+
+  /**
+   * @HallaRamadan
+   * @param email 
+   * @returns 
+   */
+  const validateEmail = (email:string) => {
+    // Validate email address using regular expression
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const phoneNumberValidationResult = validatePhoneNumber(number);
+    const isEmailValid = validateEmail(email);
+
+    if (typeof phoneNumberValidationResult === "string") {
+      setPhoneNumberError(phoneNumberValidationResult);
+      return;
+    }
+    if (!isEmailValid) {
+      alert("Invalid email address.");
+      return;
+    }
+    setPhoneNumberError(" ");
+
     console.log("Form Submission:", {
       firstName,
       lastName,
@@ -127,6 +174,10 @@ const BillingInfo = () => {
       deliveryCity: isBillingDifferent ? deliveryCity : null,
       companyName,
       companyVAT,
+
+     
+
+
     });
     // Add logic here to process form submission, such as sending data to a backend server
   };
@@ -224,6 +275,8 @@ const BillingInfo = () => {
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
+        {phoneNumberError && <div className="castor-error-message">{phoneNumberError}</div>}
+        
       </div>
 
       <div>

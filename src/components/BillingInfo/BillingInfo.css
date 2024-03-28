@@ -15,5 +15,14 @@ input {
 }
 .error-message {
   color: red; /* Red is commonly used for errors */
-  margin-bottom: 10px; /* Space below the error message */
+  
+   margin-bottom: 10px; /* Space below the error message */
+}
+.castor-error-message{
+  color: red;
+  margin-top: 5px;
+  font-size: 14px;
+}
+input.error{
+  border-color: red;
 }
